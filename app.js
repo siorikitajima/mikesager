@@ -21,7 +21,7 @@ const flash = require('express-flash');
 const methodOverride = require('method-override');
 
 const app = express();
-const port = process.env.PORT || 7070;
+const port = process.env.PORT || 3100;
 let salt = process.env.HASH_NUMBER;
 let salfInt = parseInt(salt);
 
