@@ -86,9 +86,21 @@ const bookList_post = (req, res) => {
 
 const bookList_delete = (req, res) => {
     const theName = req.body.oldname;
-    Book.findOneAndDelete({slug: theName}, (err)=> {
+    let deletedI;
+    Book.findOneAndDelete({slug: theName}, (err, dabook)=> {
+        deletedI = dabook.index;
         if(err) { console.error(err); 
         } else {
+            Book.find({}, (err, booksData) => {
+                for (let i = 0; i < booksData.length; i++) {
+                    if(booksData[i].index > deletedI) {
+                        booksData[i].index = booksData[i].index - 1;
+                        booksData[i].save((err) => {
+                            if(err) { console.error(err); }
+                        });
+                    }
+                }
+            })
             res.redirect('bookList');
         }
     })

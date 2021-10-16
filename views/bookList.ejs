@@ -20,11 +20,10 @@
                 <div class="bookContainer <%- thebook.published ? 'published' : null %>" id="<%= thebook.name %>" data-index='<%= index %>'>
                     <div class="book-text">
                         <div class="names">
-                            <p><b>ID: </b><%= thebook.slug %>,  <b>Status:</b> <span class="<%- thebook.published ? 'published' : 'draft' %>"><%- thebook.published ? 'Published' : 'Draft' %></span>,  <b>Updated at:</b> <% var date = new Date(thebook.updatedAt); var dateStr = ("00" + (date.getMonth() + 1)).slice(-2) + "/" + ("00" + date.getDate()).slice(-2) + "/" + date.getFullYear() + " " + ("00" + date.getHours()).slice(-2) + ":" + ("00" + date.getMinutes()).slice(-2) + ":" + ("00" + date.getSeconds()).slice(-2);%><%=dateStr%></p>
+                            <p><b>ID: </b><%= thebook.slug %><br/>  <b>Status:</b> <span class="<%- thebook.published ? 'published' : 'draft' %>"><%- thebook.published ? 'Published' : 'Draft' %></span>,  <b>Updated at:</b> <% var date = new Date(thebook.updatedAt); var dateStr = ("00" + (date.getMonth() + 1)).slice(-2) + "/" + ("00" + date.getDate()).slice(-2) + "/" + date.getFullYear() + " " + ("00" + date.getHours()).slice(-2) + ":" + ("00" + date.getMinutes()).slice(-2) + ":" + ("00" + date.getSeconds()).slice(-2);%><%=dateStr%></p>
                             <div class="renameBtn" data-name="<%= thebook.slug %>">
                                 <h3><%= thebook.title %></h3>
                                 <p><b>Subtitle: </b><%= thebook.subtitle %></p>
-                                <p><b>Author: </b><%= thebook.author %></p>
                             </div>
 
                             <div class="actions screen">

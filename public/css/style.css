@@ -944,8 +944,8 @@ div.bookContainer .book-text .names, div.tipContainer .tip-text .names {
     max-width: 550px;
 }
 div.bookContainer .book-text .coverthumb, div.tipContainer .coverthumb {
-    width: 160px;
-    height: 240px;
+    width: 140px;
+    height: 210px;
     background: #222;
     color: #fafafa;
     text-align: center;

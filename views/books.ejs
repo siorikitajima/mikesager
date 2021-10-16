@@ -31,7 +31,6 @@
                             <div class="book-text">
                                 <h2><%= thebook.title %></h2>
                                 <h5><%= thebook.subtitle %></h5>
-                                <p>by <%= thebook.author %></p>
                                 <p class="snippet">
                                 <% thebook.snippet.forEach((theblock, index) => { %>
                                     <% if (theblock.type == "paragraph") { %>
