@@ -1,0 +1,48 @@
+<nav class="adminNav">
+    <div class="navItems">
+        <a href="/admin"><div class="logo">MikeSager ADMIN</div></a>
+        <div class="mobileNav" onclick="mobileMenu()">
+            <img src="<% if (nav === 'book-single' || nav === 'tip-single') { %>../images/menu.svg <% } else { %>images/menu.svg<% } %>" alt="">
+        </div>
+        <ul class="adminScNav">
+            <a href="/booklist"><li <% if (nav === 'bookList') { %>class="current" <% } %> >BOOKS</li></a>
+            <a href="/tiplist"><li <% if (nav === 'tipList') { %>class="current" <% } %> >TIPS</li></a>
+            <a href="/bio"><li <% if (nav === 'bio') { %>class="current" <% } %> >BIO</li></a>
+            <li>
+                <form class="logBtn" action="/logout?_method=DELETE" method="POST">
+                    <button type="submit">LOGOUT</button>
+                    </form>
+            </li>
+        </ul>
+
+    </div>
+    <div id="mobilemenu">
+        <div class="closebtn light" onclick="mobileMenu()"></div>
+        <div class="main">
+            <ul>
+                <a href="/admin"><li <% if (nav === 'admin') { %>class="current" <% } %> >ADMIN HOME</li></a>
+                <a href="/booklist"><li <% if (nav === 'bookList') { %>class="current" <% } %> >BOOKS</li></a>
+                <a href="/tiplist"><li <% if (nav === 'tipList') { %>class="current" <% } %> >TIPS</li></a>
+                <a href="/bio"><li <% if (nav === 'bio') { %>class="current" <% } %> >BIO</li></a>
+                <li>
+                    <form class="logBtn" action="/logout?_method=DELETE" method="POST">
+                        <button type="submit">LOGOUT</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<script>
+    let menuOpen = false;
+    let mobileNav = document.querySelector('#mobilemenu');
+    function mobileMenu() {
+        if(!menuOpen) {
+            mobileNav.style.right = 0;
+        } else {
+            mobileNav.style.right = '-120%';
+        }
+        menuOpen = !menuOpen;
+    }
+
+</script>

@@ -1,0 +1,95 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+    <%- include('./partials/admin-nav.ejs')  %> 
+
+    <div class="wrapper">
+        <div class="fullWBanner admin">
+            <h1>MikeSager.com ADMIN</h1>
+        </div>
+    
+        <div class="content noTopMargin">
+
+            <a href="/booklist">
+                <div class="createNew">
+                    BOOKS
+                </div>
+            </a>
+            <a href="/tiplist">
+                <div class="createNew">
+                    TIPS
+                </div>
+            </a>
+            <a href="/bio">
+                <div class="createNew">
+                    BIO
+                </div>
+            </a>
+
+        </div>
+
+        <div class="content noTopMargin editor">
+            <h2>Edit the Short Bio</h2>
+            <div class="editorBtns">
+                <button id="saveBtn" class="disabled" disabled>SAVE</button>
+                <div></div>
+            </div>
+            <div class="midBanner admin">
+                <div class="bioimg">
+                    <img src="<%=biodata.headshot%>" alt="Mike Sager">
+                </div>
+                <div class="text" id="snippedED">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script>
+        var biodata = <%- JSON.stringify(biodata) %> ;
+        const snippedED = new EditorJS({ 
+        holder: 'snippedED', 
+        onChange: () => {
+          $('#saveBtn').removeClass('disabled');
+          $('#saveBtn').removeAttr('disabled');
+        },
+        tools: { 
+            header: {
+              class: Header, 
+              inlineToolbar: ['link'],
+              config: {
+              defaultLevel: 2
+            }
+            }
+        },
+        data: {blocks: biodata.snippet}
+      });
+
+      $(document).ready(()=> {
+        $('#saveBtn').on('click', async (e) => {
+          $target = $(e.target);
+          snippedED.save().then((bodyData) => {
+             let allData = [];
+             for( let b = 0; b < bodyData.blocks.length; b++) {
+              allData.push(bodyData.blocks[b]);
+             }
+             const data = JSON.stringify(allData);
+            $.ajax({
+              type: 'POST',
+              data: data,
+              contentType: 'application/json',
+              url: '/admin',
+              success: (res) => {
+                window.location = '/admin';
+              }
+          }).catch((error) => {
+            console.log('Saving failed: ', error)
+          });
+        })
+      })
+    });
+    </script>
+</body>

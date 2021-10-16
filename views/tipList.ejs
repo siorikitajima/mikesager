@@ -1,0 +1,203 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+    <%- include('./partials/admin-nav.ejs')  %> 
+
+    <div class="wrapper">
+        <div class="fullWBanner admin">
+            <h1>TIPS</h1>
+        </div>
+    
+        <div class="content noTopMargin">
+
+            <div class="createNew" onclick="newPanel()">
+                + POST NEW TIP
+            </div>
+
+        <% if (tips.length > 0) { %>
+            <% tips.forEach((thetip, index) => { %>
+                <div class="tipContainer <%- thetip.published ? 'published' : null %>" id="<%= thetip.name %>" data-index='<%= index %>'>
+                    <div class="tip-text">
+                        <div class="names">
+                            <p><b>ID: </b><%= thetip.slug %><br/> <b>Status:</b> <span class="<%- thetip.published ? 'published' : 'draft' %>"><%- thetip.published ? 'Published' : 'Draft' %></span>,  <b>Updated at:</b> <% var date = new Date(thetip.updatedAt); var dateStr = ("00" + (date.getMonth() + 1)).slice(-2) + "/" + ("00" + date.getDate()).slice(-2) + "/" + date.getFullYear() + " " + ("00" + date.getHours()).slice(-2) + ":" + ("00" + date.getMinutes()).slice(-2) + ":" + ("00" + date.getSeconds()).slice(-2);%><%=dateStr%></p>
+                            <div>
+                                <% if(thetip.title) { %>
+                                <h3><%= thetip.title %></h3>
+                                <% } else { %>
+                                <h3>No Title Yet</h3>
+                                <% } %>
+                            </div>
+
+                            <div class="actions screen">
+                                <div class="reIDBtn actionBtn" data-name="<%= thetip.slug %>">Rename</div>
+                                <a href="tipedit/<%= thetip.slug %>">
+                                    <div class="actionBtn" data-name="<%= thetip.slug %>">Edit</div>
+                                </a>
+                                <% if(thetip.published == true) { %>
+                                    <div class="pubBtn actionBtn" data-id="<%= thetip.slug %>" data-pub=<%= thetip.published %>>
+                                    Unpublish
+                                  <% } else { %>
+                                    <div class="pubBtn actionBtn" data-id="<%= thetip.slug %>" data-pub=<%= thetip.published %>>
+                                    Publish
+                                  <% } %>
+                                </div>
+
+                                <div class="actionBtn deleteBtn" data-name="<%= thetip.slug %>">Delete</div>
+                            </div>
+                            <div class="actions mobileactions">
+                                <a href="tipedit/<%= thetip.slug %>">
+                                    <div class="actionBtn" data-name="<%= thetip.slug %>">Edit</div>
+                                </a>
+                                <% if(thetip.published == true) { %>
+                                    <div class="pubBtn actionBtn" data-id="<%= thetip.slug %>" data-pub=<%= thetip.published %>>
+                                    Unpublish
+                                  <% } else { %>
+                                    <div class="pubBtn actionBtn" data-id="<%= thetip.slug %>" data-pub=<%= thetip.published %>>
+                                    Publish
+                                  <% } %>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="coverthumb">
+                            <% if(!thetip.featimg == '') { %>
+                            <img src="<%= thetip.featimg %>" alt="cover">
+                            <% } else { %>
+                                <img src="../images/global/TheSagerGroup_Logo_white.svg" alt="TSG">
+                            <% } %>
+                            <div class="screen"></div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+            <% } else { %>
+                    <p>No post to display</p>
+            <% } %>
+        
+    </div>
+
+    <!-- Create New Tip Panel -->
+    <div class="hidden" id="transparentScreen" onclick="newPanel()">
+    </div>
+    <div class="popups hidden" id="newPanel">
+        <h3>CREATE NEW TIP</h3>
+        <div class="closebtn" onclick="newPanel()"></div>
+        <p class="exp">The ID has to be <b>unique, lower case, and one word</b> (use hyphen to connect words). It will be used for the URL. i.e.'mikesager.com/tip/<b>tip-title</b>'</p>
+        <form id="Tip" action="/tipList" method="POST">
+            <div class="formItem">
+                <label for="slug">ID*</label>
+                <input type="text" id="slug" name="slug"  placeholder="i.e. tip-title"/>
+            </div>
+            <button class="disabled" id="createBtn" disabled>CREATE</button>
+        </form>
+    </div>
+    
+    <!-- Delete Tip Panel -->
+    <div class="hidden" id="transparentScreen2" onclick="deletePanel()"></div>
+    <form class="popups hidden" id="deletePanel" action="/tipDelete" method="POST">
+        <h3>Deleting tip "<span class="tipNameHere"></span>"</h3>
+        <div class="closebtn" onclick="deletePanel()"></div>
+        <p>Are you sure you want to delete this tip?<br/>You can not undo this action.</p>
+        <input class="hiddentipName" type="hidden" name="oldname">
+        <input class="formButton" type="submit" value="DELETE">
+    </form>
+
+    <!-- Rename Tip Panel -->
+    <div class="hidden" id="transparentScreen3" onclick="renamePanel()"></div>
+    <div class="popups hidden" id="renamePanel">
+        <h3>Rename "<span class="tipNameHere"></span>"</h3>
+        <div class="closebtn" onclick="renamePanel()"></div>
+        <p class="exp">The ID has to be <b>unique, lower case, and one word</b> (use hyphen to connect words). It will be used for the URL. i.e.'mikesager.com/tip/<b>tip-title</b>'</p>
+        <form id="renameForm" action="/tipRename" method="POST">
+            <div class="formItem">
+                <label for="newslug">ID*</label>
+                <input type="text" id="newslug" name="newslug"  placeholder="i.e. tip-title"/>
+            </div>
+            <input class="hiddentipName" type="hidden" name="oldname">
+            <button class="disabled" id="renameBtn" type="submit" disabled>SAVE</button>
+        </form>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+    var tips = <%- JSON.stringify(tips) %> ;
+    function newPanel() {
+        if($('#newPanel').hasClass('hidden')) {
+            $('#newPanel, #transparentScreen').removeClass('hidden');
+        } else {
+            $('#newPanel, #transparentScreen').addClass('hidden');
+        }
+    }
+    function deletePanel() {
+        if($('#deletePanel').hasClass('hidden')) {
+        } else {
+            $('#deletePanel, #transparentScreen2').addClass('hidden');
+        }
+    }
+    function renamePanel() {
+        if($('#renamePanel').hasClass('hidden')) {
+        } else {
+            $('#renamePanel, #transparentScreen3').addClass('hidden');
+        }
+    }
+
+    /// Enable New Tip Panel Btn
+    $('#slug').on('change', () => {
+        $('#createBtn').removeClass('disabled');
+        $('#createBtn').removeAttr('disabled');
+    })
+    /// Enable Rename Panel Btn
+    $('#newslug').on('change', () => {
+        $('#renameBtn').removeClass('disabled');
+        $('#renameBtn').removeAttr('disabled');
+    })
+
+    $(document).ready(()=> {
+        /// Delete Panel Rendering
+        $('.deleteBtn').on('click', (e)=> {
+            $target = $(e.target);
+            let theName = $target.attr('data-name');
+            $('.tipNameHere').html(theName);
+            $('.hiddentipName').val(theName);
+            $('#deletePanel, #transparentScreen2').removeClass('hidden');
+        });
+
+        /// Rename Panel Rendering
+        $('.reIDBtn').on('click', (e)=> {
+            $target = $(e.target);
+            let theName = $target.attr('data-name');
+            for(let b = 0; b < tips.length; b++) {
+                if(tips[b].slug == theName) {
+                    $('#newslug').val(tips[b].slug);
+                    $('#newtiptitle').val(tips[b].title);
+                    break;
+                }
+            }
+            $('.tipNameHere').html(theName);
+            $('.hiddentipName').val(theName);
+            $('#renamePanel, #transparentScreen3').removeClass('hidden');
+        });
+
+        //// Publish / Unpublish
+        $('.pubBtn').on('click', async (e) => {
+          $target = $(e.target);
+          const id = $target.attr('data-id');
+          const pub = $target.attr('data-pub');
+          const data = JSON.stringify({'published': pub});
+          $.ajax({
+              type: 'POST',
+              data: data,
+              contentType: 'application/json',
+              url: '/publishTip/' + id,
+              success: (res) => {
+                window.location = '/tipList';
+              }
+            }) 
+        });
+    })
+
+    </script>
+
+</body>

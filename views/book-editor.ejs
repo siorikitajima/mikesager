@@ -1,0 +1,446 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+  <div class="wrapper noheader">
+
+    <div class="bookHeader" id="headerED">
+        <div class="thumbL">
+            <% if(book.featimg) { %>
+                <img src="https://mikesager.s3.amazonaws.com/book/<%= book.slug %>/cover.jpg" alt="cover">
+            <% } else { %>
+              <img src="../images/global/TheSagerGroup_Logo_white.svg" alt="TSG">
+              <% } %>
+        </div>
+        <div class="bookInfo">
+            <h1><%= book.title %></h1>
+            <h3><%= book.subtitle %></h3>
+            <p>by <%= book.author %></p>
+            <div class="links">
+                    <% if (book.links.filter(e => e.type === 'pb').length > 0) { %>
+                        <p><strong>Paperback Available at</strong><br/>
+                        <% book.links.forEach((link, index) => { %>
+                            <% if(link.type == 'pb') { %>
+                                <a href="<%= link.url %>">
+                                    <span><%= link.vender %></span>
+                                </a>
+                        <% } }) %>
+                    <% } %></p>
+
+                    <% if (book.links.filter(e => e.type === 'eb').length > 0) { %>
+                    <p><strong>Ebook Available at</strong><br/>
+                    <% book.links.forEach((link, index) => { %>
+                        <% if(link.type == 'eb') { %>
+                            <a href="<%= link.url %>">
+                                <span><%= link.vender %></span>
+                            </a>
+                    <% } }) %>
+                    <% } %></p>
+
+                    <% if (book.links.filter(e => e.type === 'hc').length > 0) { %>
+                    <p><strong>Hardcover Available at</strong><br/>
+                    <% book.links.forEach((link, index) => { %>
+                        <% if(link.type == 'hc') { %>
+                            <a href="<%= link.url %>">
+                            <span><%= link.vender %></span>
+                            </a>
+                    <% } }) %>
+                    <% } %></p>
+              </div>
+        </div>
+        <div class="adminBtns">
+          <button class="coverBtn">Upload Cover</button>
+          <button class="renameBtn">Edit Titles</button>
+          <button class="snippetBtn" onclick="booksnipPanel()">Edit Snippet</button>
+          <button class="linkBtn">Edit Links</button>
+        </div>
+    </div>
+    
+    <div class="content blog-single" id="bodyED">
+    </div>
+    
+    <div class="buttons">
+      <a href="/bookList">
+        <div class="editorNav">
+        <img src="../images/back.svg" alt="back">
+        </div>
+    </a>
+        <button id="saveBtn" class="disabled" data-id="<%= name %>" disabled>SAVE</button>
+    </div>
+</div>
+
+    <!-- Rename Book Panel -->
+    <div class="hidden" id="transparentScreen3" onclick="renamePanel()"></div>
+    <div class="popups hidden" id="renamePanel">
+        <h3>Update ID and Titles</h3>
+        <div class="closebtn" onclick="renamePanel()"></div>
+        <p class="exp">The ID has to be <b>unique, lower case, and one word</b> (use hyphen to connect words). It will be used for the URL. i.e.'mikesager.com/book/<b>book-title</b>'</p>
+        <form id="renameForm" action="/bookRename" method="POST">
+            <div class="formItem">
+                <label for="newslug">ID*</label>
+                <input type="text" id="newslug" name="newslug"  placeholder="i.e. book-title"/>
+            </div>
+            <div class="formItem">
+                <label for="newbooktitle">Title*</label>
+                <input type="text" id="newbooktitle" name="newbooktitle" />
+            </div>
+            <div class="formItem">
+                <label for="newsubtitle">SubTitle</label>
+                <input type="text" id="newsubtitle" name="newsubtitle" />
+            </div>
+            <div class="formItem">
+                <label for="newauthor">Author*</label>
+                <input type="text" id="newauthor" name="newauthor" />
+            </div>
+            <input class="hiddenbookName" type="hidden" name="oldname">
+            <input type="hidden" name="location" value="bookEditor">
+            <button class="disabled" id="renameBtn" type="submit" disabled>SAVE</button>
+        </form>
+    </div>
+
+    <!-- Update Cover Image -->
+    <div class="hidden" id="transparentScreen4" onclick="coverPanel()"></div>
+    <form class="popups hidden" id="coverPanel" action="" method="POST" enctype="multipart/form-data">
+        <h3>Upload Cover JPG</h3>
+        <div class="closebtn" onclick="coverPanel()"></div>
+        <input type="file" id="coverimg" name="coverimg" />
+        <button class="formButton disabled" id="coverUpld" type="submit" disabled>UPLPAD</button>
+    </form>
+
+    <!-- Link Panel -->
+    <div class="hidden" id="transparentScreen5" onclick="linkPanel()"></div>
+    <div class="popups hidden" id="linkPanel">
+        <div class="closebtn" onclick="linkPanel()"></div>
+        <form id="linkForm">
+
+        <div id="pb-links">
+            <div class="link-section">
+                <h4 for="ebook">PAPERBACK LINKS</h4>
+                <button type="button" class="addMore" id="addPaperback" data-type="pb">+</button>
+            </div>
+        </div>
+
+        <div id="eb-links">
+            <div class="link-section">
+                <h4 for="ebook">E-BOOK LINKS</h4>
+                <button type="button" class="addMore" id="addEbook" data-type="eb">+</button>
+            </div>
+        </div>
+
+        <div id="hc-links">
+            <div class="link-section">
+                <h4 for="ebook">HARDCOVER LINKS</h4>
+                <button type="button" class="addMore" id="addHardcover" data-type="hc">+</button>
+            </div>
+        </div>
+
+        <div class="hidden" id="linkTemplate">
+            <div class="template" data-type="">
+                <select class="vender">
+                    <option selected disabled>Select Vender</option>
+                </select>
+                <input class="url" type="text" placeholder="https://www.amazon.com/book-name/..." />
+            </div>
+        </div>
+
+            <input class="hiddenbookName" id="linkBookName" type="hidden" name="bookname">
+            <button id="linkBtn" type="button">SAVE</button>
+        </form>
+    </div>
+
+        <!-- Book snippet Book Panel -->
+        <div class="hidden" id="transparentScreen2" onclick="booksnipPanel()"></div>
+        <div class="popups hidden" id="booksnipPanel">
+            <h3>Set/Edit the Snippet</h3>
+            <div class="closebtn" onclick="booksnipPanel()"></div>
+            <p class="exp">This is a short version of book description which will appear on the Home page along with the title and cover thumbnail.</p>
+            <hr>
+            <form id="renameForm" action="/bookRename" method="POST">
+                <div id="booksnipED"></div>
+                <button class="disabled" id="booksnipBtn" type="button" disabled data-id="<%= name %>">SAVE</button>
+            </form>
+        </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@2.3.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+
+    <script>
+var thebook = <%- JSON.stringify(book) %> ;
+const ImageTool = window.ImageTool;
+
+const booksnipED = new EditorJS({
+    holder: 'booksnipED',
+    onChange: () => {
+          $('#booksnipBtn').removeClass('disabled');
+          $('#booksnipBtn').removeAttr('disabled');
+        },
+        data: {blocks: thebook.snippet}
+});
+
+const bodyED = new EditorJS({ 
+        holder: 'bodyED', 
+        onChange: () => {
+          $('#saveBtn').removeClass('disabled');
+          $('#saveBtn').removeAttr('disabled');
+        },
+        tools: { 
+            header: {
+              class: Header, 
+              inlineToolbar: true,
+              config: {
+              defaultLevel: 3
+            }
+            }, 
+            image: {
+              class: ImageTool,
+              config: {
+                endpoints: {
+                  byFile: '/featimage',
+                },
+                additionalRequestHeaders: {
+                  'bookname': thebook.slug
+                },
+                captionPlaceholder: 'Caption or credit for the image',
+                field: 'image',
+                types: 'image/*'
+              }
+            },
+          list: {
+            class: List,
+            inlineToolbar: true,
+          },
+        },
+        data: {blocks: thebook.body}
+      })
+
+      $(document).ready(()=> {
+        $('#saveBtn').on('click', async (e) => {
+          $target = $(e.target);
+          const id = $target.attr('data-id');
+          bodyED.save().then((bodyData) => {
+        //    headerED.save().then((headerData) => {
+             let allData = [];
+        //      for( let h = 0; h < headerData.blocks.length; h++) {
+        //       allData.push(headerData.blocks[h]);
+        //      }
+             for( let b = 0; b < bodyData.blocks.length; b++) {
+              allData.push(bodyData.blocks[b]);
+             }
+             const data = JSON.stringify(allData);
+
+            $.ajax({
+              type: 'POST',
+              data: data,
+              contentType: 'application/json',
+              url: '/edit/' + id,
+              headers: {
+                // 'headLength': headerData.blocks.length
+                'bookname': thebook.slug
+              },
+              success: (res) => {
+                window.location = '/edit/' + id;
+              }
+            // })
+          }).catch((error) => {
+            console.log('Saving failed: ', error)
+          });
+        })
+      });
+
+      $('#booksnipBtn').on('click', async (e) => {
+          $target = $(e.target);
+          const id = $target.attr('data-id');
+          booksnipED.save().then((snipData) => {
+             let allData = [];
+             for( let b = 0; b < snipData.blocks.length; b++) {
+              allData.push(snipData.blocks[b]);
+             }
+             const data = JSON.stringify(allData);
+             console.log(data, id);
+            $.ajax({
+              type: 'POST',
+              data: data,
+              contentType: 'application/json',
+              url: '/snippet/' + id,
+              success: (res) => {
+                window.location = '/edit/' + id;
+              }
+          }).catch((error) => {
+            console.log('Saving failed: ', error)
+          });
+        })
+      })
+    });
+
+    function renamePanel() {
+        if($('#renamePanel').hasClass('hidden')) {
+        } else {
+            $('#renamePanel, #transparentScreen3').addClass('hidden');
+        }
+    }
+    function coverPanel() {
+        if($('#coverPanel').hasClass('hidden')) {
+        } else {
+            $('#coverPanel, #transparentScreen4').addClass('hidden');
+        }
+    }
+    function linkPanel() {
+        if($('#linkPanel').hasClass('hidden')) {
+        } else {
+            $('#linkPanel, #transparentScreen5').addClass('hidden');
+        }
+    }
+    function booksnipPanel() {
+        if($('#booksnipPanel').hasClass('hidden')) {
+            $('#booksnipPanel, #transparentScreen2').removeClass('hidden');
+        } else {
+            $('#booksnipPanel, #transparentScreen2').addClass('hidden');
+        }
+    }
+
+    /// Enable Rename Panel Btn
+    $('#newslug, #newbooktitle, #newsubtitle, #newauthor').on('change', () => {
+        $('#renameBtn').removeClass('disabled');
+        $('#renameBtn').removeAttr('disabled');
+    })
+    /// Enable Cover Panel Btn
+    $('#coverimg').on('change', () => {
+        $('#coverUpld').removeClass('disabled');
+        $('#coverUpld').removeAttr('disabled');
+    })
+    /// Enable Link Panel Btn
+    //     $('.vender, .url').on('change', () => {
+    //     $('#linkBtn').removeClass('disabled');
+    //     $('#linkBtn').removeAttr('disabled');
+    // })
+
+    $(document).ready(()=> {
+        /// Rename Panel Rendering
+        $('.renameBtn').on('click', (e)=> {
+            $target = $(e.target);
+            $('#newslug').val(thebook.slug);
+            $('#newbooktitle').val(thebook.title);
+            $('#newsubtitle').val(thebook.subtitle);
+            $('#newauthor').val(thebook.author);
+            $('.bookNameHere').html(thebook.slug);
+            $('.hiddenbookName').val(thebook.slug);
+            $('#renamePanel, #transparentScreen3').removeClass('hidden');
+        });
+        /// Cover Panel Rendering
+         $('.coverBtn').on('click', (e)=> {
+            $target = $(e.target);
+            $('.bookNameHere').html(thebook.slug);
+            $('#coverPanel').attr('action', `/bookCover/${thebook.slug}`);
+            $('#coverPanel, #transparentScreen4').removeClass('hidden');
+        });
+        /// Link Panel Rendering
+        $('.linkBtn').on('click', (e)=> {
+            $( ".linkItem" ).remove();
+            $target = $(e.target);
+            $('.hiddenbookName').val(thebook.slug);
+            $('.vender').append(new Option("Amazon", "Amazon")).append(new Option("iTunes", "iTunes")).append(new Option("Smashwords", "Smashwords")).append(new Option("Barns&Noble", "Barns&Noble")).append(new Option("Rakuten", "Rakuten")).append(new Option("OverDrive", "OverDrive")).append(new Option("indiebound", "indiebound")).append(new Option("Bookshop", "Bookshop"));
+
+            if(thebook.links.length == 0) {
+                addFields('pb');
+                addFields('eb');
+                addFields('hc');
+            } else {
+                for(let l = 0; l < thebook.links.length; l++) {
+                    let datype = thebook.links[l].type;
+                    let davender = thebook.links[l].vender;
+                    let daurl = thebook.links[l].url;
+                    addFilledFields(datype, davender, daurl);
+                }
+                addFields('pb');
+                addFields('eb');
+                addFields('hc');
+            }
+
+            $('#linkPanel, #transparentScreen5').removeClass('hidden');
+        });
+
+        /// Link Panel Adding fields
+        $('#addPaperback, #addEbook, #addHardcover').on('click', (e)=> {
+            let type = $(e.target).attr('data-type');
+            addFields(type);
+        });
+
+        /// Send Links form via ajax
+        $('#linkBtn').on('click', ()=> {
+            let formData = [];
+            for (let i = 0; i < $('.linkItem').length-1; i++) {
+                var theselect = $('.linkItem').eq(i).children('select');
+                var theinput = $('.linkItem').eq(i).children('input');
+                const typeV = $('.linkItem').eq(i).attr('data-type');
+                const venderV = theselect.val();
+                const urlV = theinput.val();
+                if(!venderV == null || !urlV == '') {
+                    const link = { type : typeV, vender : venderV, url : urlV};
+                    formData.push(link);
+                }
+            }
+            const bookslug = $('#linkBookName').val();
+            const data = { name: bookslug, data: formData }
+            $.ajax({
+                url : "/bookLinks",
+                type: "POST",
+                dataType:"json",
+                contentType: "application/json",
+                data : JSON.stringify(data),
+                success: function (result) {
+                    console.log(result);
+                    if(result.status == 200){
+                        window.location = '/edit/' + bookslug;
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                { 
+                  console.log('Saving failed: ', errorThrown)
+                }
+            });
+        })
+
+    })
+
+    function addFields(type){
+        let container;
+        if( type == 'pb') { container = $('#pb-links');}
+        else if( type == 'eb') { container = $('#eb-links');}
+        else { container = $('#hc-links');}
+        const formItem = $('div.template');
+        const clonedItem = $(formItem).clone();
+        $(clonedItem).attr('data-type', type);
+        $(clonedItem).removeClass('template');
+        $(clonedItem).addClass('linkItem');
+        $(container).append(clonedItem)
+    }
+    function addFilledFields(type, vender, url){
+        let container;
+        if( type == 'pb') { container = $('#pb-links');}
+        else if( type == 'eb') { container = $('#eb-links');}
+        else { container = $('#hc-links');}
+        const formItem = $('div.template');
+        const clonedItem = $(formItem).clone();
+        $(clonedItem).attr('data-type', type);
+        $(clonedItem).removeClass('template');
+        $(clonedItem).addClass('linkItem');
+        
+        const theselect = $(clonedItem).children('select');
+        const theoptions = $(theselect).children('option');
+        const theinput = $(clonedItem).children('input');
+
+            for(let o = 0; o < $(theoptions).length; o++) {
+                if ( theoptions[o].value === vender ) {
+                    $(theoptions[o]).attr('selected', 'selected'); 
+                    break;
+                }
+            }
+        $(theinput).val(url);
+        $(container).append(clonedItem)
+    }
+    </script>
+</body>
+</html>

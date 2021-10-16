@@ -1,0 +1,115 @@
+<nav>
+    <div class="navItems">
+        <div class="mobileNav" onclick="mobileMenu()">
+            <img src="<% if (nav === 'book-single' || nav === 'tip-single') { %>../images/menu.svg <% } else { %>images/menu.svg<% } %>" alt="">
+        </div>
+        <ul class="navUls">
+            <a href="/">
+                <li <% if (nav === 'books') { %>class="current" <% } %>  id="bookddBtn" class="headermenu">Home
+                <ul id="bookdropdown">
+                    <% books.forEach((book, index) => { %>
+                        <% if (book.published) { %>
+                            <a href="/book/<%= book.slug %>">
+                                <li class="headermenu"><%= book.title %></li>
+                            </a>
+                        <% } %>
+                    <% }) %>
+                </ul>
+                </li>
+            </a>
+            <a href="/biography"><li <% if (nav === 'biography') { %>class="current" <% } %> >Biography</li></a>
+        </ul>
+        <a href="/"><div class="logo" id="mslogo">
+            <img id="logoimg" src="<% if (nav === 'book-single' || nav === 'tip-single') { %>../images/global/TheSagerGroup_Logo_white.svg <% } else { %>images/global/TheSagerGroup_Logo_white.svg<% } %>" alt="Mike Sager">
+            <h4 id="logotext">MikeSager</h4>
+        </div></a>
+        <ul class="navUls">
+            <a href="/tips"><li <% if (nav === 'tips' || nav === 'tip-single') { %>class="current" <% } %>  class="headermenu">Tips</li></a>
+            <a href="/contact"><li <% if (nav === 'contact') { %>class="current" <% } %>  class="headermenu">Contact</li></a>
+        </ul>
+    </div>
+    <div id="mobilemenu">
+        <div class="closebtn light" onclick="mobileMenu()"></div>
+        <div class="main">
+            <ul>
+                <a href="/"><li <% if (nav === 'books') { %>class="current" <% } %>  id="bookddBtn">Home</li></a>
+                <a href="/biography"><li <% if (nav === 'biography') { %>class="current" <% } %> >Biography</li></a>
+                <a href="/tips"><li <% if (nav === 'tips' || nav === 'tip-single') { %>class="current" <% } %> >Tips</li></a>
+                <a href="/contact"><li <% if (nav === 'contact') { %>class="current" <% } %> >Contact</li></a>
+            </ul>
+        </div>
+        <hr>
+        <div class="booknames">
+            <ul id="bookdropdown">
+                <% books.forEach((book, index) => { %>
+                    <% if (book.published) { %>
+                        <a href="/book/<%= book.slug %>">
+                            <li><%= book.title %></li>
+                        </a>
+                    <% } %>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+    <!-- <ul>
+        <li class="logBtn">        
+            <a href="/login">
+            <button>LOGIN</button>
+            </a>
+        </li>
+    </ul> -->
+</nav>
+<script>
+    var nav = <%- JSON.stringify(nav) %> ;
+    let menuOpen = false;
+    let mobileNav = document.querySelector('#mobilemenu');
+    function mobileMenu() {
+        if(!menuOpen) {
+            mobileNav.style.right = 0;
+        } else {
+            mobileNav.style.right = '-120%';
+        }
+        menuOpen = !menuOpen;
+    }
+    
+    document.addEventListener('scroll', function(e) {
+        var thescroll = window.scrollY;
+        let thenav = document.querySelector('nav');
+        let navItems = document.querySelectorAll('.navUls');
+        // let thelogo = document.querySelector('div.logo');
+        let imglogo = document.querySelector('#logoimg');
+        let textlogo = document.querySelector('#logotext');
+        thenav.style.transitionDuration = '200ms';
+
+        if(thescroll > 80) {
+            thenav.style.height = '30px';
+            for ( let u = 0; u < navItems.length; u++) {
+                navItems[u].style.marginTop = 0;
+            }
+            imglogo.style.display = 'none';
+            textlogo.style.display = 'inline';
+            // thelogo.innerHTML = 'MikeSager';
+        } else {
+            thenav.style.height = '80px';
+            for ( let u = 0; u < navItems.length; u++) {
+                navItems[u].style.marginTop = '30px';
+            }
+            let imgString;
+            if (nav === 'book-single' || nav === 'tip-single') { 
+                imgString = '<img src="../images/global/TheSagerGroup_Logo_white.svg" alt="Mike Sager">';
+            } else { 
+                imgString = '<img src="images/global/TheSagerGroup_Logo_white.svg" alt="Mike Sager">';
+            }
+            imglogo.style.display = 'inline';
+            textlogo.style.display = 'none';
+            // thelogo.innerHTML = imgString;
+        }
+    });
+
+    document.querySelector('#bookddBtn, #bookdropdown').addEventListener('mouseover', function() {
+        document.querySelector('#bookdropdown').style.display = 'block';
+    });
+    document.querySelector('#bookddBtn, #bookdropdown').addEventListener('mouseleave', function() {
+        document.querySelector('#bookdropdown').style.display = 'none';
+    });
+</script>

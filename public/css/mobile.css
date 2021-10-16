@@ -1,0 +1,309 @@
+/* @media(max-width: 960px) {
+    nav .navItems ul li {
+        margin-left: 15px;
+    }
+} */
+
+@media(max-width: 960px) {
+    .content {
+        width: calc(100% - 20px);
+        padding: 50px 10px;
+    }
+    .content.noTopMargin {
+        margin: 20px 0;
+    }
+}
+@media(max-width: 800px) {
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.6em; }
+    h3 { font-size: 1.4em; }
+
+    nav .navItems {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: block;
+        position: relative;
+    }
+    nav .navItems ul.navUls {
+        display: none;
+    }
+    nav .navItems ul li {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    nav .navItems .mobileNav {
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        width: 30px;
+        height: 30px;
+        display: block;
+        transform: translateY(-15px);
+    }
+    nav .navItems .logo {
+        display: block;
+        position: absolute;
+        left: 5px;
+        top: 0;
+        padding: 0;
+    }
+    nav .navItems .logo img {
+        opacity: 1;
+    }
+    .adminScNav {
+        display: none;
+    }
+    
+    .midBanner .bioimg img {
+        width: 100px;
+        height: 100px;
+    }
+    .midBanner .text {
+        width: 100%;
+        padding: 0;
+    }
+
+    .book .book-text {
+        width: calc(100% - 160px);
+    }
+    .book .book-thumb {
+        width: 140px;
+        height: 210px;
+    }
+    .book .book-text .readBtn {
+        padding: 5px 10px;
+        margin: 0;
+        width: calc(100% - 20px);
+        font-size: 0.9em;
+    }
+
+    div.bookContainer .book-text .coverthumb, div.tipContainer .coverthumb {
+        width: 140px;
+        height: 210px;
+    }
+
+    /* #headerED .ce-paragraph {
+        font-size: 1em;
+    }
+    #headerED .ce-header {
+        line-height: 1em;
+        margin-top: 0;
+    } */
+    .fullWBanner h1, .blogHeader h1, .blogHeader h1.ce-header {
+        max-width: calc(90% - 60px);
+        margin: 0 auto;
+    }
+    div.service-single {
+        margin-bottom: 50px;
+    }
+
+    .bookHeader, .tipHeader {
+        display: block;
+        padding: 50px 10px;
+        width: calc(100% - 20px);
+    }
+    .bookHeader .thumbL, .tipHeader .thumbL {
+        margin: 0 auto 30px auto;
+    }
+    .bookHeader .bookInfo, .tipHeader.bookInfo {
+        padding: 0;
+        width: 100%;
+        text-align: center;
+    }
+    .about .bioimg {
+        float: none;
+        margin: 10px auto 30px auto;
+        width: fit-content;
+        height: fit-content;
+        max-width: 80vw;
+    }
+    .content.center .SocialMedia {
+        margin: 0;
+    }
+    .content.center .SocialMedia p {
+        margin: 20px;
+    }
+    div.actionBtn {
+        margin: 0 10px 20px 0;
+    }
+
+    div.bookContainer .book-text .renameBtn {
+        padding-left: 0;
+    }
+    div.bookContainer .book-text .renameBtn::before {
+        display: none;
+    }
+    .popups {
+        max-width: calc(90% - 40px);
+        padding: 50px 20px;
+    }
+    .adminBtns button {
+        display: inline-block;
+    }
+    .adminBtns {
+        width: fit-content;
+        text-align: center;
+        margin: 20px auto;
+    }
+}
+@media(max-width: 700px) {
+    .book .book-text p.snippet {
+        display: none;
+    }
+    .midBanner {
+        display: block;
+    }
+    .midBanner .bioimg {
+        display: none;
+    }
+    .tip-thumb {
+        display: none;
+    }
+    div.tipContainer .coverthumb {
+        display: none;
+    }
+}
+
+@media(max-width: 600px) {
+    .actions.screen {
+        display: none;
+    }
+    .actions.mobileactions {
+        display: block;
+    }
+    .popups {
+        max-width: unset;
+        width: calc(100% - 20px);
+        max-height: unset;
+        height: calc(100% - 100px);
+        padding: 50px 10px;
+    }
+    div.createNew {
+        font-size: 1.4em;
+    }
+}
+
+@media(max-width: 500px) {
+    /* div.bookContainer .book-text, div.tipContainer .tip-text {
+        display: block;
+    } */
+    div.bookContainer .book-text .names p, div.tipContainer .tip-text .names p {
+        display: none;
+    }
+    div.linkItem label, div.linkItem input, div.formItem label, div.formItem input {
+        display: block;
+    }
+    select.vender {
+        margin: 5px auto;
+    }
+    div.linkItem label, div.formItem label {
+        width: 80px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    div.linkItem input, div.formItem input, div.linkItem input.url {
+        width: 100%;
+        max-width: unset;
+    }
+    form button, input.formButton, nav button, .adminBtns button {
+        font-size: 1em;
+    }
+    .adminBtns button {
+        width: 135px;
+    }
+}
+
+@media(max-width: 400px) {
+    .content {
+        width: calc(100% - 20px);
+        padding: 30px 10px;
+    }
+    h1 {
+        font-size: 1.8em;
+    }
+    
+    h2 {
+        font-size: 1.5em;
+    }
+    
+    h3 {
+        font-size: 1.3em;
+    }
+    
+    h4 {
+        font-size: 1.2em;
+    }
+    
+    h5 {
+        font-size: 1.1em;
+    }
+    
+    h6 {
+        font-size: 1em;
+    }
+    
+    p, ul, li, div.ce-paragraph, .cdx-list, .image-tool__caption, div.actionBtn {
+        font-size: 1em;
+    }
+    .book {
+        padding: 30px 0 10px 0;
+    }
+    .book .book-text {
+        width: calc(100% - 140px);
+    }
+    .book .book-thumb {
+        width: 120px;
+        height: 180px;
+    }
+    .about .bioimg img {
+        width: 240px;
+        height: 240px;
+    }
+    div.bookContainer, div.tipContainer {
+        width: calc(100% - 20px);
+        padding: 20px 10px;
+        margin-bottom: 20px;
+    }
+    div.bookContainer .book-text .coverthumb, div.tipContainer .coverthumb {
+        width: 120px;
+        height: 180px;
+    }
+    div.bookContainer::before, div.tipContainer::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 20px;
+        top: -20px;
+        left: 0;
+        background: #ecaa46;
+        margin-top: 10px;
+    }
+    ul.book-list {
+        padding-inline-start: 20px;
+        margin: 10px 0 0 0;
+    }
+    .readBtn.screenReadBtn {
+        display: none;
+    }
+    .readBtn.mobileReadBtn {
+        display: block;
+        width: calc(100% - 20px);
+        height: fit-content;
+        background: #111;
+        padding: 5px 10px;
+        color: #ddd;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .readBtn.mobileReadBtn p {
+        margin: 10px auto;
+    }
+    button.addMore {
+        margin: 10px 0 10px 10px;
+    }
+    div.createNew {
+        font-size: 1.2em;
+    }
+}

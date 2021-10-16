@@ -1,0 +1,44 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+    <%- include('./partials/nav.ejs')  %> 
+
+    <div class="wrapper contact">
+
+        <div class="content">            
+            <form action="/contact" method="POST" role="form">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email">
+                <label for="message">Message</label>
+                <textarea type="text" id="message" name="message"></textarea>
+                <button>SEND</button>
+            </form>
+        </div>
+
+        <div class="content center noTopMargin">  
+            <!-- <h3>Contact Me At</h3> -->
+            <div class="SocialMedia">
+                <a href="https://www.facebook.com/TheMikeSagerExpress" target="_blank">
+                    <p><img src="images/contact/facebook.png" alt="facebook"> Mike Sager</p>
+                </a>
+                <a href="https://twitter.com/therealsager" target="_blank">
+                    <p><img src="images/contact/twitter.png" alt="Twitter"> @therealsager</p>
+                </a>
+                <a href="https://en.wikipedia.org/wiki/Mike_Sager" target="_blank">
+                    <p><img src="images/contact/wikipedia.png" alt="Wikipedia"> Mike Sager</p>
+                </a>
+                <!-- <p><img src="images/contact/skype.png" alt="Skype"> mikesager1</p> -->
+                <a href="https://www.instagram.com/therealsager/" target="_blank">
+                    <p><img src="images/contact/instagram.png" alt="Instagram"> @therealsager</p>
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+    <%- include('./partials/footer.ejs')  %> 
+
+</body>

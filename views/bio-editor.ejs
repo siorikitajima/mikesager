@@ -1,0 +1,126 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+  <%- include('./partials/admin-nav.ejs')  %> 
+
+  <div class="wrapper">
+    <div class="fullWBanner admin bio">
+        <h1>Biography</h1>
+        <div class="adminBtns">
+            <button class="coverBtn" id="headshotBtn">Replace Headshot</button>
+        </div>
+    </div>
+    
+    <div class="content about" id="bodyED">
+        <h1>Mike Sager</h1>
+        <div class="bioimg">
+            <img src="<%= headshot %>" alt="Mike Sager">
+        </div>
+    </div>
+    
+    <div class="buttons">
+        <button id="saveBtn" class="disabled" disabled>SAVE</button>
+        <div></div>
+    </div>
+</div>
+
+    <!-- Update Cover Image -->
+    <div class="hidden" id="transparentScreen4" onclick="hsPanel()"></div>
+    <form class="popups hidden" id="hsPanel" action="/headshot" method="POST" enctype="multipart/form-data">
+        <h3>Replace the Headshot</h3>
+        <div class="closebtn" onclick="hsPanel()"></div>
+        <input type="file" id="headshot" name="headshot" />
+        <button class="formButton disabled" id="coverUpld" type="submit" disabled>UPLOAD</button>
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@2.3.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+
+    <script>
+var body = <%- JSON.stringify(body) %> ;
+const ImageTool = window.ImageTool;
+
+const bodyED = new EditorJS({ 
+        holder: 'bodyED', 
+        onChange: () => {
+          $('#saveBtn').removeClass('disabled');
+          $('#saveBtn').removeAttr('disabled');
+        },
+        tools: { 
+            header: {
+              class: Header, 
+              inlineToolbar: true,
+              config: {
+              defaultLevel: 3
+            }
+            }, 
+            image: {
+              class: ImageTool,
+              config: {
+                endpoints: {
+                  byFile: '/bioimage',
+                },
+                captionPlaceholder: 'Caption or credit for the image',
+                field: 'image',
+                types: 'image/*'
+              }
+            },
+          list: {
+            class: List,
+            inlineToolbar: true,
+          },
+        },
+        data: {blocks: body}
+      })
+
+      $(document).ready(()=> {
+        $('#saveBtn').on('click', async (e) => {
+          $target = $(e.target);
+          bodyED.save().then((bodyData) => {
+             let allData = [];
+             for( let b = 0; b < bodyData.blocks.length; b++) {
+              allData.push(bodyData.blocks[b]);
+             }
+             const data = JSON.stringify(allData);
+            $.ajax({
+              type: 'POST',
+              data: data,
+              contentType: 'application/json',
+              url: '/bio',
+              success: (res) => {
+                window.location = '/bio';
+              }
+          }).catch((error) => {
+            console.log('Saving failed: ', error)
+          });
+        })
+      })
+    });
+
+    function hsPanel() {
+        if($('#hsPanel').hasClass('hidden')) {
+        } else {
+            $('#hsPanel, #transparentScreen4').addClass('hidden');
+        }
+    }
+
+    /// Enable Cover Panel Btn
+    $('#headshot').on('change', () => {
+        $('#coverUpld').removeClass('disabled');
+        $('#coverUpld').removeAttr('disabled');
+    })
+
+    $(document).ready(()=> {
+        /// Cover Panel Rendering
+         $('#headshotBtn').on('click', (e)=> {
+            $target = $(e.target);
+            $('#hsPanel, #transparentScreen4').removeClass('hidden');
+        });
+    });
+    </script>
+</body>
+</html>

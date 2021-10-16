@@ -1,0 +1,42 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+    <%- include('./partials/nav.ejs')  %> 
+
+    <div class="wrapper">
+
+        <div class="fullWBanner">
+            <h1>Writing Tips</h1>
+        </div>
+    
+        <div class="content noTopMargin">
+            <div class="tips">
+                <% tips.forEach((thetip, index) => { %>
+                    <% if (thetip.published == true) { %>
+                        <a href="/tip/<%= thetip.slug %>">
+                        <div class="tip">
+                            <div class="tip-thumb">
+                                <% if (thetip.featimg !== '') {%>
+                                    <img src="https://mikesager.s3.amazonaws.com/tip/<%= thetip.featimg %>" alt="<%= thetip.title %>">
+                                <% } else { %>
+                                    <img src="../images/global/TheSagerGroup_Logo_white.svg" alt="TSG">
+                                <% } %>
+                            </div>
+                            <div class="tip-text">
+                                <h3><%= thetip.title %></h3>
+                                <p><%= thetip.subtitle %></p>
+                                <p><%= thetip.snippet %></p>
+                                <div class="readBtn"><p>Read More >></p></div>
+                            </div>
+                        </div>
+                    </a>
+                    <% } %>
+                <% }) %>
+            </div>
+        </div>
+
+    </div>
+    <%- include('./partials/footer.ejs')  %> 
+
+</body>

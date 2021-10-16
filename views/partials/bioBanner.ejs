@@ -1,0 +1,19 @@
+<a href="/biography">
+<div class="midBanner">
+    <div class="bioimg">
+        <img src="/images/MikeSager_headshot.jpg" alt="Mike Sager">
+    </div>
+    <div class="text">
+
+        <% snippet.forEach((theblock, index) => { %>
+            <% if (theblock.type == "paragraph") { %>
+                <p><%- theblock.data.text %></p>
+            <% } else if (theblock.type == "header" ) { %>
+                <h3><%- theblock.data.text %></h3>
+            <% } %>
+        <% }); %>
+
+        <div class="readBtn"><p>Read More >></p></div>
+    </div>
+</div>
+</a>

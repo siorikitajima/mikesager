@@ -1,0 +1,22 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+    <%- include('./partials/nav.ejs')  %> 
+
+    <div class="wrapper">
+    
+        <div class="content center">
+            <img src="images/contact/sent.svg" alt="message sent">
+            <h3>Thank you for your message</h3>
+            <p>You will be hearing back in a couple days.<br/>
+            Redirecting to the Home page in 3 sec...</p>
+        </div>
+
+    </div>
+    <%- include('./partials/footer.ejs')  %> 
+
+    <script>
+        setTimeout(() => {location.href="/"} , 3000);
+    </script>
+</body>

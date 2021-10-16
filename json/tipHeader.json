@@ -1,0 +1,16 @@
+[
+    {
+        "type":"header",
+        "data": {
+            "text":"Writing Tip Title",
+            "level":"1"
+            }
+    },
+    {
+        "type":"header",
+        "data": {
+            "text":"Tip Sub Title if any",
+            "level":"3"
+            }
+    }
+]

@@ -1,0 +1,147 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+  <div class="wrapper noheader">
+
+    <div class="tipHeader admin" id="headerED"></div>
+    
+    <div class="content blog-single" id="bodyED"></div>
+    
+    <div class="buttons">
+        <a href="/tipList">
+            <div class="editorNav">
+            <img src="../images/back.svg" alt="back">
+            </div>
+        </a>
+        <% if(tip.published == true) { %>
+          <button id="pubBtn" data-id="<%= name %>" data-pub=<%= tip.published %>>
+          UNPUBLISH
+        <% } else { %>
+          <button id="pubBtn2" data-id="<%= name %>" data-pub=<%= tip.published %>>
+          PUBLISH
+        <% } %>
+      </button>
+      <button id="saveBtn" class="disabled" data-id="<%= name %>" disabled>SAVE</button>
+    </div>
+
+</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@2.3.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+
+    <script>
+var thetip = <%- JSON.stringify(tip) %> ;
+const ImageTool = window.ImageTool;
+const headerED = new EditorJS({ 
+        holder: 'headerED', 
+        onChange: () => {
+          $('#saveBtn').removeClass('disabled');
+          $('#saveBtn').removeAttr('disabled');
+        },
+        inlineToolbar: true,
+        tools: { 
+          header: {
+            class: Header, 
+            inlineToolbar: true,
+            config: {
+              defaultLevel: 1
+            }
+          }
+        },
+        data: {blocks: thetip.header},
+        minHeight: 0,
+        hideToolbar: true
+      });
+const bodyED = new EditorJS({ 
+        holder: 'bodyED', 
+        onChange: () => {
+          $('#saveBtn').removeClass('disabled');
+          $('#saveBtn').removeAttr('disabled');
+        },
+        tools: { 
+            header: {
+              class: Header, 
+              inlineToolbar: true,
+              config: {
+              defaultLevel: 3
+            }
+            }, 
+            image: {
+              class: ImageTool,
+              config: {
+                endpoints: {
+                  byFile: '/tipimage'
+                },
+                field: 'image',
+                types: 'image/*'
+              }
+            },
+          list: {
+            class: List,
+            inlineToolbar: true,
+          },
+        },
+        data: {blocks: thetip.body}
+      })
+
+      $(document).ready(()=> {
+        $('#saveBtn').on('click', async (e) => {
+          $target = $(e.target);
+          const id = $target.attr('data-id');
+          bodyED.save().then((bodyData) => {
+           headerED.save().then((headerData) => {
+             let allData = [];
+             for( let h = 0; h < headerData.blocks.length; h++) {
+              allData.push(headerData.blocks[h]);
+             }
+             for( let b = 0; b < bodyData.blocks.length; b++) {
+              allData.push(bodyData.blocks[b]);
+             }
+             const data = JSON.stringify(allData);
+
+            $.ajax({
+              type: 'POST',
+              data: data,
+              contentType: 'application/json',
+              url: '/tipedit/' + id,
+              headers: {
+                'headLength': headerData.blocks.length
+              },
+              success: (res) => {
+                window.location = '/tipedit/' + id;
+              }
+            })
+          }).catch((error) => {
+            console.log('Saving failed: ', error)
+          });
+        })
+      })
+    });
+
+    $(document).ready(()=> {
+        $('#pubBtn').on('click', async (e) => {
+          if(!$('#saveBtn').hasClass('disabled')) {
+            alert('Save the change first!');
+          } else {
+          $target = $(e.target);
+          const id = $target.attr('data-id');
+          const pub = $target.attr('data-pub');
+          const data = JSON.stringify({'published': pub});
+          $.ajax({
+              type: 'POST',
+              data: data,
+              contentType: 'application/json',
+              url: '/publish/' + id,
+              success: (res) => {
+                window.location = '/edit/' + id;
+              }
+            })
+          }
+        });
+      });
+    </script>
+</body>
+</html>

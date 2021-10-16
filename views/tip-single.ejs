@@ -1,0 +1,47 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+    <%- include('./partials/nav.ejs')  %> 
+
+    <div class="wrapper">
+
+        <div class="tipHeader">
+            <% tip.header.forEach((theblock, index) => { %>
+            <% if (theblock.type == "header" && theblock.data.level == 1 ) { %>
+                <h1><%= theblock.data.text %></h1>
+            <% }}); %>
+        </div>
+    
+        <div class="content noTopMargin">
+            <% tip.body.forEach((theblock, index) => { %>
+                <% if (theblock.type == "paragraph") { %>
+                    <p><%- theblock.data.text %></p>
+                <% } else if (theblock.type == "image") { %>
+                    <img class="bookInline" src="<%= theblock.data.file.url %>" alt="image">
+                    <p class="caption"><%- theblock.data.caption %></p>
+                <% } else if (theblock.type == "header" && theblock.data.level == 3 ) { %>
+                    <h3 class="book_heading"><%= theblock.data.text %></h3>
+                <% } else if (theblock.type == "list" && theblock.data.style == 'unordered' ) { %>
+                    <ul class="book-list">
+                        <% theblock.data.items.forEach((item, index) => { %>
+                        <li><%- item %></li>
+                        <% }) %>
+                    </ul>
+                <% } else if (theblock.type == "list" && theblock.data.style == 'ordered' ) { %>
+                    <ol class="book-list">
+                        <% theblock.data.items.forEach((item, index) => { %>
+                        <li><%- item %></li>
+                        <% }) %>
+                    </ol>
+                <% } else if (theblock.type == "header" && theblock.data.level == 3 ) { %>
+                    <h3><%= theblock.data.text %></h3>
+                <% }}); %>
+                <div class="spaceM"></div>
+            <%- include('./partials/bioBanner.ejs')  %> 
+        </div>
+    </div>
+
+    <%- include('./partials/footer.ejs')  %> 
+
+</body>
