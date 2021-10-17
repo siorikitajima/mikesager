@@ -122,6 +122,13 @@ const headshot_post = (req, res) => {
 
 const bio_front_get = (req, res) => {
     Book.find({}, (err, booksData) => {
+      booksData.sort(function(a, b) {
+        var keyA = a.index,
+            keyB = b.index;
+        if (keyA < keyB) return 1;
+        if (keyA > keyB) return -1;
+        return 0;
+      });
         Bio.findOne({_id: '616921ae5548e4dd220f0788'}, (err, bioData) => {
             if(err) {console.log(err);}
             else {

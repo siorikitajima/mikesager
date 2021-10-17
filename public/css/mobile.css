@@ -12,6 +12,10 @@
     .content.noTopMargin {
         margin: 20px 0;
     }
+    /* .bookHeader .thumbL {
+        height: 240px;
+        width: 160px;
+    } */
 }
 @media(max-width: 800px) {
     h1 { font-size: 2em; }

@@ -137,6 +137,13 @@ const books_get = (req, res) => {
 const book_single_get = (req, res) => {
     var bookslug = req.params.slug;
     Book.find({}, (err, booksData) => {
+        booksData.sort(function(a, b) {
+            var keyA = a.index,
+                keyB = b.index;
+            if (keyA < keyB) return 1;
+            if (keyA > keyB) return -1;
+            return 0;
+          });
         Book.findOne({slug: bookslug}, (err, bookData) => {
             if(err) {console.log(err);}
             else {

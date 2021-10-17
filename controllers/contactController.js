@@ -3,6 +3,13 @@ const Book = require('../models/book');
 
 const contact_get = (req, res) => {
     Book.find({}, (err, booksData) => {
+      booksData.sort(function(a, b) {
+        var keyA = a.index,
+            keyB = b.index;
+        if (keyA < keyB) return 1;
+        if (keyA > keyB) return -1;
+        return 0;
+      });
         if(err) {console.log(err);}
         else {
         res.render('contact', {
@@ -41,8 +48,27 @@ const contact_post = (req, res) => {
       else { res.redirect('/thanku');  }
     })
 }
+const thanku_get = (req, res) => {
+  Book.find({}, (err, booksData) => {
+    booksData.sort(function(a, b) {
+      var keyA = a.index,
+          keyB = b.index;
+      if (keyA < keyB) return 1;
+      if (keyA > keyB) return -1;
+      return 0;
+    });
+      if(err) {console.log(err);}
+      else {
+      res.render('msgSent', {
+          title: 'Contact',
+          nav: 'contact',
+          books: booksData
+      })
+  }})
+}
 
 module.exports = {
     contact_get,
-    contact_post
+    contact_post,
+    thanku_get
 }

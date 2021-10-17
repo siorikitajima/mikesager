@@ -118,6 +118,13 @@ const tipimg_post = (req, res) => {
 
 const tips_get = (req, res) => {
     Book.find({}, (err, booksData) => {
+        booksData.sort(function(a, b) {
+            var keyA = a.index,
+                keyB = b.index;
+            if (keyA < keyB) return 1;
+            if (keyA > keyB) return -1;
+            return 0;
+          });
         Tip.find({}, (err, tipsData) => {
             tipsData.sort(function(a, b) {
                 var keyA = new Date(a.updatedAt),
@@ -142,6 +149,13 @@ const tips_get = (req, res) => {
 const tip_single_get = (req, res) => {
     var tipslug = req.params.slug;
     Book.find({}, (err, booksData) => {
+        booksData.sort(function(a, b) {
+            var keyA = a.index,
+                keyB = b.index;
+            if (keyA < keyB) return 1;
+            if (keyA > keyB) return -1;
+            return 0;
+          });
         Tip.findOne({slug: tipslug}, (err, tipData) => {
             if(err) {console.log(err);}
             else {

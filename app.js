@@ -81,9 +81,7 @@ app.get('/tip/:slug', tipController.tip_single_get);
 
 app.get('/contact', contactController.contact_get);
 app.post('/contact', contactController.contact_post);
-app.get('/thanku', (req, res) => {
-    res.render('msgSent', { title: 'Contact', nav: 'contact' });
-})
+app.get('/thanku', contactController.thanku_get);
 
 // Admin panel Routes
 app.get('/admin', authController.checkAuthenticated, bioController.admin_get);

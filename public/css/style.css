@@ -155,7 +155,7 @@ nav.adminNav .navItems ul {
 }
 
 nav .navItems ul a {
-    color: #ddd;
+    color: #888;
     font-weight: normal;
     border-bottom: #ecaa4600 4px solid;
 }
@@ -164,7 +164,7 @@ nav .navItems ul a:hover {
     transition-duration: 200ms;
     border-bottom: #ecaa46aa 4px solid;
 }
-nav .navItems ul li, nav .navItems ul li a {
+nav .navItems ul li {
     font-family: 'Montserrat', sans-serif;
     list-style: none;
     color: #888;
@@ -180,7 +180,7 @@ ul#bookdropdown li a {
     margin: 0;
 } */
 
-nav .navItems ul li.current {
+nav .navItems ul a li.current, nav .navItems ul a.current {
     color: #ecaa46;
     opacity: 1;
 }
@@ -188,31 +188,52 @@ nav .navItems ul li.current {
 nav .navItems .mobileNav {
     display: none;
 }
-nav li#bookddBtn {
-    position: relative;
+nav .navUls li {
+    width: 90px;
+    text-align: center;
 }
-nav li#bookddBtn ul#bookdropdown {
-    width: max-content;
+nav #bookddBtn {
+    position: relative;
+    /* overflow-x: visible; */
+}
+nav #bookddBtn ul#bookdropdown {
+    /* z-index: -10; */
+    /* width: 300px; */
+    /* height: 500px;
+    max-height: calc(100% - 150px); */
     display: block;
     position: absolute;
-    top: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #111;
+    top: auto;
+    left: -50%;
+    /* background: #111; */
     padding: 0;
+    /* overflow-x:visible; */
     display: none;
 }
-nav li#bookddBtn ul#bookdropdown li {
+/* nav #bookddBtn:hover ul#bookdropdown {
+    display: block;
+} */
+/* nav #bookddBtn ul#bookdropdown a li {
+    display: inline;
+} */
+/* nav #bookddBtn ul#bookdropdown a {
+    display: inline;
+} */
+nav #bookddBtn ul#bookdropdown a li {
     opacity: 1;
-    padding: 15px 20px;
+    padding: 10px 20px;
     margin: 0;
+    display: block;
     font-size: 0.9em;
     border-bottom: #444 1px solid;
     color: #ddd;
     background: #111;
+    width: 300px;
+    height: min-content;
+    overflow: hidden;
 }
 
-nav li#bookddBtn ul#bookdropdown li:hover {
+nav #bookddBtn ul#bookdropdown li:hover {
     color: #111;
     background: #ecaa46;
     transition-duration: 200ms;
@@ -319,10 +340,12 @@ footer {
     margin: 0 auto;
 }
 .bookHeader .thumbL {
-    height: 240px;
-    width: 160px;
+    /* height: 240px;
+    width: 160px; */
+    height: 300px;
+    width: 200px;
     background: #444;
-    margin: 0;
+    margin: 10px 0 0 0;
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
@@ -335,9 +358,9 @@ footer {
     transform: translate(-50%, -50%);
 }
 .bookHeader .bookInfo {
-    width: 530px;
+    width: 500px;
     margin: 0;
-    padding-left: 30px;
+    padding-left: 40px;
 }
 .bookHeader .bookInfo .links {
     margin-top: 10px;
@@ -779,6 +802,7 @@ form textarea {
     padding: 10px;
     margin: 5px 0 20px 0;
     font-family: 'Montserrat', sans-serif;
+    font-size: 1.1em;
 }
 
 /* /////// Book Single + Admin panel /////// */

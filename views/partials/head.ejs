@@ -2,6 +2,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Only for Dev env -->
+    <meta name="robots" content="noindex,nofollow">
+
     <% if (nav === 'book-single' || nav === 'tip-single' || nav === 'book-editor' || nav === 'tip-editor') { %>
         <link rel="stylesheet" href="../css/style.css">
         <link rel="stylesheet" href="../css/mobile.css">
@@ -9,5 +13,53 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/mobile.css">
     <% } %>
+
+    <% if (nav === 'book-single') { %>
+        <meta property="og:title" content="<%= book.title %> | Mike Sager" />
+        <meta property="og:url" content="https://mikesager.com/book/<%= book.slug %>/" /> 
+        <% if(book.featimg) { %>
+            <meta property="og:image" content="https://mikesager.s3.amazonaws.com/book/<%= book.slug %>/cover.jpg" />
+        <% } else { %>
+            <meta property="og:image" content="https://msdev.siorikitajima.com/images/global/TheSagerGroup_Logo_white.jpg" />
+        <% } %>
+        <title><%= book.title %> | Mike Sager</title>
+        <meta property="og:description" name="og:description" content="<%= book.snippet[0].data.text %>">
+        <meta property="description" name="description" content="<%= book.snippet[0].data.text %>">
+    <%  } else if (nav === 'tip-single') { %>
+        <meta property="og:title" content="<%= tip.title %> | Mike Sager" />
+        <meta property="og:url" content="https://mikesager.com/tip/<%= tip.slug %>/" /> 
+        <% if(tip.featimg !== '') { %>
+            <meta property="og:image" content="<%= tip.featimg %>" />
+        <% } else { %>
+            <meta property="og:image" content="https://msdev.siorikitajima.com/images/global/TheSagerGroup_Logo_white.jpg" />
+        <% } %>
+        <title><%= tip.title %> | Mike Sager</title>
+        <meta property="og:description" name="og:description" content="<%= tip.snippet[0] %>">
+        <meta property="description" name="description" content="<%= tip.snippet[0] %>">
+    <%  } else { %>
+        <meta property="og:title" content="<%= title %> | Mike Sager" />
+        <meta property="og:url" content="https://mikesager.com/<%= nav %>/" /> 
+        <meta property="og:image" content="https://msdev.siorikitajima.com/images/global/TheSagerGroup_Logo_white.jpg" />
         <title><%= title %> | Mike Sager</title>
+        <meta property="og:description" name="og:description" content="Mike Sager is a bestselling author and award-winning reporter. He’s been called “the Beat poet of American journalism.” For more than forty years he has worked as a writer for the Washington Post, Rolling Stone, GQ and Esquire.">
+        <meta property="description" name="description" content="Mike Sager is a bestselling author and award-winning reporter. He’s been called “the Beat poet of American journalism.” For more than forty years he has worked as a writer for the Washington Post, Rolling Stone, GQ and Esquire.">
+    <%  } %>
+
+    <% if (nav === 'book-single' || nav === 'tip-single' || nav === 'book-editor' || nav === 'tip-editor') { %>
+        <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+        <link rel="manifest" href="../site.webmanifest">
+        <link rel="mask-icon" href="../safari-pinned-tab.svg" color="#111111">
+        <meta name="msapplication-TileColor" content="#111111">
+        <meta name="theme-color" content="#111111">
+    <%  } else { %>
+        <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+        <link rel="manifest" href="./site.webmanifest">
+        <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#111111">
+        <meta name="msapplication-TileColor" content="#111111">
+        <meta name="theme-color" content="#111111">
+    <%  } %>
 </head>
