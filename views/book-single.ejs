@@ -23,7 +23,7 @@
                         <p><strong>Paperback Available at</strong><br/>
                         <% book.links.forEach((link, index) => { %>
                             <% if(link.type == 'pb') { %>
-                                <a href="<%= link.url %>">
+                                <a href="<%= link.url %>" target="_blank">
                                     <span><%= link.vender %></span>
                                 </a>
                         <% } }) %>
@@ -33,7 +33,7 @@
                     <p><strong>Ebook Available at</strong><br/>
                     <% book.links.forEach((link, index) => { %>
                         <% if(link.type == 'eb') { %>
-                            <a href="<%= link.url %>">
+                            <a href="<%= link.url %>" target="_blank">
                                 <span><%= link.vender %></span>
                             </a>
                     <% } }) %>
@@ -43,7 +43,7 @@
                     <p><strong>Hardcover Available at</strong><br/>
                     <% book.links.forEach((link, index) => { %>
                         <% if(link.type == 'hc') { %>
-                            <a href="<%= link.url %>">
+                            <a href="<%= link.url %>" target="_blank">
                             <span><%= link.vender %></span>
                             </a>
                     <% } }) %>

@@ -121,10 +121,10 @@ app.post('/bioimage', authController.checkAuthenticated, bioController.bioimg_po
 app.post('/headshot', authController.checkAuthenticated, bioController.headshot_post);
 
 // User Management Routes
-app.get('/register', (req, res) => {
+app.get('/register', authController.checkAuthenticated, (req, res) => {
     res.render('register', { title: 'register', nav: 'register' });
 });
-app.post('/register', async (req, res) => {
+app.post('/register', authController.checkAuthenticated, async (req, res) => {
     await bcrypt.hash(req.body.pass, salfInt, (err, hash) => {
     if(err) console.log(err);
         const user = new User({
