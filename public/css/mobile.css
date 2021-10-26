@@ -9,6 +9,9 @@
         width: calc(100% - 20px);
         padding: 50px 10px;
     }
+    .content.home {
+        padding: 10px;
+    }
     .content.noTopMargin {
         margin: 20px 0;
     }
@@ -60,10 +63,10 @@
         display: none;
     }
     
-    .midBanner .bioimg img {
+    /* .midBanner .bioimg img {
         width: 100px;
         height: 100px;
-    }
+    } */
     .midBanner .text {
         width: 100%;
         padding: 0;

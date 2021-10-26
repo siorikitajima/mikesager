@@ -134,10 +134,28 @@
             </div>
         </div>
 
-        <div class="hidden" id="linkTemplate">
-            <div class="template" data-type="">
-                <select class="vender">
-                    <option selected disabled>Select Vender</option>
+        <div class="hidden" id="pb-linkTemplate">
+            <div class="pb-template" data-type="">
+                <select class="pb-vender">
+                    <option selected disabled value="">Select...</option>
+                </select>
+                <input class="url" type="text" placeholder="https://www.amazon.com/book-name/..." />
+            </div>
+        </div>
+
+        <div class="hidden" id="eb-linkTemplate">
+            <div class="eb-template" data-type="">
+                <select class="eb-vender">
+                    <option selected disabled value="">Select...</option>
+                </select>
+                <input class="url" type="text" placeholder="https://www.amazon.com/book-name/..." />
+            </div>
+        </div>
+
+        <div class="hidden" id="hc-linkTemplate">
+            <div class="hc-template" data-type="">
+                <select class="hc-vender">
+                    <option selected disabled value="">Select...</option>
                 </select>
                 <input class="url" type="text" placeholder="https://www.amazon.com/book-name/..." />
             </div>
@@ -341,7 +359,9 @@ const bodyED = new EditorJS({
             $( ".linkItem" ).remove();
             $target = $(e.target);
             $('.hiddenbookName').val(thebook.slug);
-            $('.vender').append(new Option("Amazon", "Amazon")).append(new Option("iTunes", "iTunes")).append(new Option("Smashwords", "Smashwords")).append(new Option("Barnes&Noble", "Barnes&Noble")).append(new Option("Rakuten", "Rakuten")).append(new Option("OverDrive", "OverDrive")).append(new Option("indiebound", "indiebound")).append(new Option("Bookshop", "Bookshop"));
+            $('.pb-vender').append(new Option("Amazon", "Amazon")).append(new Option("Barnes&Noble", "Barnes&Noble")).append(new Option("indiebound", "indiebound")).append(new Option("Bookshop", "Bookshop"));
+            $('.eb-vender').append(new Option("Kindle", "Kindle")).append(new Option("iTunes", "iTunes")).append(new Option("Smashwords", "Smashwords")).append(new Option("Nook", "Nook")).append(new Option("Rakuten", "Rakuten")).append(new Option("Scribd.", "Scribd.")).append(new Option("Odilo", "Odilo"));
+            $('.hc-vender').append(new Option("Amazon", "Amazon")).append(new Option("Barnes&Noble", "Barnes&Noble")).append(new Option("indiebound", "indiebound")).append(new Option("Bookshop", "Bookshop"));
 
             if(thebook.links.length == 0) {
                 addFields('pb');
@@ -407,26 +427,61 @@ const bodyED = new EditorJS({
 
     function addFields(type){
         let container;
-        if( type == 'pb') { container = $('#pb-links');}
-        else if( type == 'eb') { container = $('#eb-links');}
-        else { container = $('#hc-links');}
-        const formItem = $('div.template');
-        const clonedItem = $(formItem).clone();
-        $(clonedItem).attr('data-type', type);
-        $(clonedItem).removeClass('template');
-        $(clonedItem).addClass('linkItem');
-        $(container).append(clonedItem)
+        if( type == 'pb') { 
+            container = $('#pb-links');
+            const formItem = $('div.pb-template');
+            const clonedItem = $(formItem).clone();
+            $(clonedItem).attr('data-type', type);
+            $(clonedItem).removeClass('pb-template');
+            $(clonedItem).addClass('linkItem');
+            $(container).append(clonedItem);
+        }
+        else if( type == 'eb') { 
+            container = $('#eb-links');
+            const formItem = $('div.eb-template');
+            const clonedItem = $(formItem).clone();
+            $(clonedItem).attr('data-type', type);
+            $(clonedItem).removeClass('eb-template');
+            $(clonedItem).addClass('linkItem');
+            $(container).append(clonedItem);
+        }
+        else { 
+            container = $('#hc-links');
+            const formItem = $('div.hc-template');
+            const clonedItem = $(formItem).clone();
+            $(clonedItem).attr('data-type', type);
+            $(clonedItem).removeClass('hc-template');
+            $(clonedItem).addClass('linkItem');
+            $(container).append(clonedItem);
+        }
+
     }
     function addFilledFields(type, vender, url){
-        let container;
-        if( type == 'pb') { container = $('#pb-links');}
-        else if( type == 'eb') { container = $('#eb-links');}
-        else { container = $('#hc-links');}
-        const formItem = $('div.template');
-        const clonedItem = $(formItem).clone();
-        $(clonedItem).attr('data-type', type);
-        $(clonedItem).removeClass('template');
-        $(clonedItem).addClass('linkItem');
+        let container, formItem, clonedItem;
+        if( type == 'pb') { 
+            container = $('#pb-links');
+            formItem = $('div.pb-template');
+            clonedItem = $(formItem).clone();
+            $(clonedItem).attr('data-type', type);
+            $(clonedItem).removeClass('pb-template');
+            $(clonedItem).addClass('linkItem');
+        }
+        else if( type == 'eb') { 
+            container = $('#eb-links');
+            formItem = $('div.eb-template');
+            clonedItem = $(formItem).clone();
+            $(clonedItem).attr('data-type', type);
+            $(clonedItem).removeClass('eb-template');
+            $(clonedItem).addClass('linkItem');
+        }
+        else {
+            container = $('#hc-links');
+            formItem = $('div.hc-template');
+            clonedItem = $(formItem).clone();
+            $(clonedItem).attr('data-type', type);
+            $(clonedItem).removeClass('hc-template');
+            $(clonedItem).addClass('linkItem');
+        }
         
         const theselect = $(clonedItem).children('select');
         const theoptions = $(theselect).children('option');

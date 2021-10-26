@@ -4,21 +4,19 @@
 <body>
     <%- include('./partials/nav.ejs')  %> 
 
-    <div class="wrapper">
+    <div class="wrapper home">
 
         <!-- <div class="fullWBanner">
             <h1>Books by Mike Sager</h1>
         </div> -->
-    
-        <div class="content">
-            
-            <div class="books">
-                <div id="screenBioContainer">
-                <%- include('./partials/bioBanner.ejs')  %> 
-                </div>
+        <div id="screenBioContainer">
+            <%- include('./partials/bioBanner.ejs')  %> 
+        </div>
 
+            <!-- <div class="books"> -->
                 <% books.forEach((thebook, index) => { %>
-                    <% if (thebook.published == true) { %>
+                    <div class="content home">
+                        <% if (thebook.published == true) { %>
                         <a href="/book/<%= thebook.slug %>">
                         <div class="book">
                             <div class="book-thumb">
@@ -44,12 +42,13 @@
                         <div class="readBtn mobileReadBtn" ><p>Read More >></p></div>
                         </a>
                     <% } %>
-                <% }) %>
-                <div id="mobileBioContainer">
-                    <%- include('./partials/bioBanner.ejs')  %> 
-                </div>
-            </div>
+            <!-- </div> -->
         </div>
+        <% }) %>
+        <div id="mobileBioContainer">
+            <%- include('./partials/bioBanner.ejs')  %> 
+        </div>
+
         <%- include('./partials/footer.ejs')  %> 
 
     </div>
@@ -57,9 +56,11 @@
     <script>
         if (window.innerWidth < 800) {
             document.querySelector('#screenBioContainer').style.display = 'none';
+            document.querySelector('.wrapper').classList.add('home');
             document.querySelector('#mobileBioContainer').style.display = 'block';
         } else {
             document.querySelector('#screenBioContainer').style.display = 'block';
+            document.querySelector('.wrapper').classList.remove('home');
             document.querySelector('#mobileBioContainer').style.display = 'none';
         }
         
