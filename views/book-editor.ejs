@@ -189,6 +189,7 @@
 var thebook = <%- JSON.stringify(book) %> ;
 const ImageTool = window.ImageTool;
 
+//// Short Description Editor
 const booksnipED = new EditorJS({
     holder: 'booksnipED',
     onChange: () => {
@@ -197,7 +198,7 @@ const booksnipED = new EditorJS({
         },
         data: {blocks: thebook.snippet}
 });
-
+//// Body Editor
 const bodyED = new EditorJS({ 
         holder: 'bodyED', 
         onChange: () => {
@@ -234,16 +235,13 @@ const bodyED = new EditorJS({
         data: {blocks: thebook.body}
       })
 
-      $(document).ready(()=> {
+    $(document).ready(()=> {
+        //// Save Body Editor
         $('#saveBtn').on('click', async (e) => {
           $target = $(e.target);
           const id = $target.attr('data-id');
           bodyED.save().then((bodyData) => {
-        //    headerED.save().then((headerData) => {
              let allData = [];
-        //      for( let h = 0; h < headerData.blocks.length; h++) {
-        //       allData.push(headerData.blocks[h]);
-        //      }
              for( let b = 0; b < bodyData.blocks.length; b++) {
               allData.push(bodyData.blocks[b]);
              }
@@ -255,19 +253,18 @@ const bodyED = new EditorJS({
               contentType: 'application/json',
               url: '/edit/' + id,
               headers: {
-                // 'headLength': headerData.blocks.length
                 'bookname': thebook.slug
               },
               success: (res) => {
                 window.location = '/edit/' + id;
               }
-            // })
           }).catch((error) => {
             console.log('Saving failed: ', error)
           });
         })
       });
 
+    //// Save Short Description Editor
       $('#booksnipBtn').on('click', async (e) => {
           $target = $(e.target);
           const id = $target.attr('data-id');
@@ -329,11 +326,6 @@ const bodyED = new EditorJS({
         $('#coverUpld').removeClass('disabled');
         $('#coverUpld').removeAttr('disabled');
     })
-    /// Enable Link Panel Btn
-    //     $('.vender, .url').on('change', () => {
-    //     $('#linkBtn').removeClass('disabled');
-    //     $('#linkBtn').removeAttr('disabled');
-    // })
 
     $(document).ready(()=> {
         /// Rename Panel Rendering
@@ -425,6 +417,7 @@ const bodyED = new EditorJS({
 
     })
 
+    //// Adding Blank Link Fields
     function addFields(type){
         let container;
         if( type == 'pb') { 
@@ -456,6 +449,8 @@ const bodyED = new EditorJS({
         }
 
     }
+
+    //// Generate Link Fields from DB
     function addFilledFields(type, vender, url){
         let container, formItem, clonedItem;
         if( type == 'pb') { 

@@ -6,51 +6,45 @@
 
     <div class="wrapper home">
 
-        <!-- <div class="fullWBanner">
-            <h1>Books by Mike Sager</h1>
-        </div> -->
         <div id="screenBioContainer">
             <%- include('./partials/bioBanner.ejs')  %> 
         </div>
 
-            <!-- <div class="books"> -->
-                <% books.forEach((thebook, index) => { %>
+            <% books.forEach((thebook, index) => { %>
+                <% if (thebook.published == true) { %>
                     <div class="content home">
-                        <% if (thebook.published == true) { %>
                         <a href="/book/<%= thebook.slug %>">
-                        <div class="book">
-                            <div class="book-thumb">
-                                <% if(thebook.featimg) { %>
-                                <img src="https://mikesager.s3.amazonaws.com/book/<%= thebook.slug %>/cover.jpg" alt="<%= thebook.title %>">
-                                <% } else { %>
-                                    <img src="./images/global/TheSagerGroup_Logo_white.svg" alt="TSG">
-                                <% } %>
-                            </div>
-                            <div class="book-text">
-                                <h2><%= thebook.title %></h2>
-                                <h5><%= thebook.subtitle %></h5>
-                                <p class="snippet">
-                                <% thebook.snippet.forEach((theblock, index) => { %>
-                                    <% if (theblock.type == "paragraph") { %>
-                                        <%- theblock.data.text %>
+                            <div class="book">
+                                <div class="book-thumb">
+                                    <% if(thebook.featimg) { %>
+                                    <img src="https://mikesager.s3.amazonaws.com/book/<%= thebook.slug %>/cover.jpg" alt="<%= thebook.title %>">
+                                    <% } else { %>
+                                        <img src="./images/global/TheSagerGroup_Logo_white.svg" alt="TSG">
                                     <% } %>
-                                <% }); %>
-                                </p>
-                                <div class="readBtn screenReadBtn" ><p>Read More >></p></div>
+                                </div>
+                                <div class="book-text">
+                                    <h2><%= thebook.title %></h2>
+                                    <h5><%= thebook.subtitle %></h5>
+                                    <p class="snippet">
+                                    <% thebook.snippet.forEach((theblock, index) => { %>
+                                        <% if (theblock.type == "paragraph") { %>
+                                            <%- theblock.data.text %>
+                                        <% } %>
+                                    <% }); %>
+                                    </p>
+                                    <div class="readBtn screenReadBtn" ><p>Read More >></p></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="readBtn mobileReadBtn" ><p>Read More >></p></div>
+                            <div class="readBtn mobileReadBtn" ><p>Read More >></p></div>
                         </a>
-                    <% } %>
-            <!-- </div> -->
-        </div>
-        <% }) %>
+                    </div>
+                <% } %>
+            <% }) %>
         <div id="mobileBioContainer">
             <%- include('./partials/bioBanner.ejs')  %> 
         </div>
 
         <%- include('./partials/footer.ejs')  %> 
-
     </div>
 
     <script>
@@ -63,27 +57,5 @@
             document.querySelector('.wrapper').classList.remove('home');
             document.querySelector('#mobileBioContainer').style.display = 'none';
         }
-        
-        // if (window.innerWidth < 400) {
-        //     var elems = document.querySelectorAll('screenReadBtn');
-        //     var elems2 = document.querySelectorAll('mobileReadBtn');
-        //     var index = 0, index2 = 1, length = elems.length, length2 = elems2.length;
-        //     for ( ; index < length; index++) {
-        //         elems[index].style.display = 'none';
-        //     }
-        //     for ( ; index2 < length2; index2++) {
-        //         elems2[index2].style.display = 'block';
-        //     }
-        // } else {
-        //     var elems = document.querySelectorAll('screenReadBtn');
-        //     var elems2 = document.querySelectorAll('mobileReadBtn');
-        //     var index = 0, index2 = 1, length = elems.length, length2 = elems2.length;
-        //     for ( ; index < length; index++) {
-        //         elems[index].style.display = 'block';
-        //     }
-        //     for ( ; index2 < length2; index2++) {
-        //         elems2[index2].style.display = 'none';
-        //     }
-        // }
     </script>
 </body>

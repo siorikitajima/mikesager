@@ -9,7 +9,7 @@
         width: calc(100% - 20px);
         padding: 50px 10px;
     }
-    .content.home {
+    .content.home, .content.tipList {
         padding: 10px;
     }
     .content.noTopMargin {
@@ -72,7 +72,7 @@
         padding: 0;
     }
 
-    .book .book-text {
+    .book .book-text, .tip .tip-text {
         width: calc(100% - 160px);
     }
     .book .book-thumb {
@@ -168,6 +168,9 @@
     .tip-thumb {
         display: none;
     }
+    .tip .tip-text {
+        width: 100%;
+    }
     div.tipContainer .coverthumb {
         display: none;
     }
@@ -193,9 +196,7 @@
 }
 
 @media(max-width: 500px) {
-    /* div.bookContainer .book-text, div.tipContainer .tip-text {
-        display: block;
-    } */
+
     div.bookContainer .book-text .names p, div.tipContainer .tip-text .names p {
         display: none;
     }

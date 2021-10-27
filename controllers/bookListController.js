@@ -32,8 +32,6 @@ const publish_book = (req, res) => {
 const bookList_get = (req, res) => {
     Book.find({}, (err, booksData) => {
         booksData.sort(function(a, b) {
-            // var keyA = new Date(a.updatedAt),
-            //   keyB = new Date(b.updatedAt);
             var keyA = a.index,
                 keyB = b.index;
             if (keyA < keyB) return 1;
@@ -51,9 +49,10 @@ const bookList_get = (req, res) => {
     })
 }
 
+//// Creating New Book
 const bookList_post = (req, res) => {
-    let bdata = fs.readFileSync('./json/bookBody.json');
-    let bodyData = JSON.parse(bdata);
+    // let bdata = fs.readFileSync('./json/bookBody.json');
+    // let bodyData = JSON.parse(bdata);
     const slug = req.body.slug;
     const title = req.body.booktitle;
     const subtitle = req.body.subtitle;
@@ -68,7 +67,8 @@ const bookList_post = (req, res) => {
                     title: title,
                     subtitle: subtitle,
                     author: author,
-                    body: bodyData,
+                    // body: bodyData,
+                    body: [],
                     published: false,
                     featimg: false,
                     index: allcount

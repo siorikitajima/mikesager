@@ -3,7 +3,6 @@ const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
 const Book = require('../models/book');
 const Bio = require('../models/bio');
-const fs = require('fs');
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.ACCESS_KEY_ID_S3,
@@ -27,10 +26,8 @@ const bioeditor_get = (req, res) => {
 
 const bioeditor_post = (req, res) => {
     const data = req.body;
-
     Bio.findOne({_id: '616921ae5548e4dd220f0788'}, (err, bioData) => {
         bioData.body = data;
-
         bioData.save((err) => {
             if(err) { console.error(err); 
             } else {
@@ -40,6 +37,7 @@ const bioeditor_post = (req, res) => {
     })
 };
 
+//// Images posted inline Biography
 const bioimg_post = (req, res) => {
     let filename;
     let upload = multer({
@@ -75,10 +73,12 @@ const bioimg_post = (req, res) => {
             file: {
               url: `https://mikesager.s3.amazonaws.com/${filename}`,
             }
-        })}
-      });
-}
+        })
+      }
+    });
+  }
 
+//// Replacing the Headshot
 const headshot_post = (req, res) => {
     let filename;
     let upload = multer({
@@ -120,6 +120,7 @@ const headshot_post = (req, res) => {
     })      
 }
 
+//// Biography page (Client)
 const bio_front_get = (req, res) => {
     Book.find({}, (err, booksData) => {
       booksData.sort(function(a, b) {
@@ -156,12 +157,11 @@ const admin_get = (req, res) => {
     })
 }
 
+//// Short Bio Editor on Admin Home
 const admin_post = (req, res) => {
     const data = req.body;
-
     Bio.findOne({_id: '616921ae5548e4dd220f0788'}, (err, bioData) => {
         bioData.snippet = data;
-
         bioData.save((err) => {
             if(err) { console.error(err); 
             } else {

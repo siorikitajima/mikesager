@@ -25,7 +25,7 @@
     </div>
 </div>
 
-    <!-- Update Cover Image -->
+    <!-- Update Headshot -->
     <div class="hidden" id="transparentScreen4" onclick="hsPanel()"></div>
     <form class="popups hidden" id="hsPanel" action="/headshot" method="POST" enctype="multipart/form-data">
         <h3>Replace the Headshot</h3>
@@ -45,82 +45,84 @@ var body = <%- JSON.stringify(body) %> ;
 const ImageTool = window.ImageTool;
 
 const bodyED = new EditorJS({ 
-        holder: 'bodyED', 
-        onChange: () => {
-          $('#saveBtn').removeClass('disabled');
-          $('#saveBtn').removeAttr('disabled');
-        },
-        tools: { 
-            header: {
-              class: Header, 
-              inlineToolbar: true,
-              config: {
-              defaultLevel: 3
-            }
-            }, 
-            image: {
-              class: ImageTool,
-              config: {
-                endpoints: {
-                  byFile: '/bioimage',
-                },
-                captionPlaceholder: 'Caption or credit for the image',
-                field: 'image',
-                types: 'image/*'
-              }
-            },
-          list: {
-            class: List,
+      holder: 'bodyED', 
+      onChange: () => {
+        $('#saveBtn').removeClass('disabled');
+        $('#saveBtn').removeAttr('disabled');
+      },
+      tools: { 
+          header: {
+            class: Header, 
             inlineToolbar: true,
+            config: {
+            defaultLevel: 3
+          }
+          }, 
+          image: {
+            class: ImageTool,
+            config: {
+              endpoints: {
+                byFile: '/bioimage',
+              },
+              captionPlaceholder: 'Caption or credit for the image',
+              field: 'image',
+              types: 'image/*'
+            }
           },
+        list: {
+          class: List,
+          inlineToolbar: true,
         },
-        data: {blocks: body}
-      })
-
-      $(document).ready(()=> {
-        $('#saveBtn').on('click', async (e) => {
-          $target = $(e.target);
-          bodyED.save().then((bodyData) => {
-             let allData = [];
-             for( let b = 0; b < bodyData.blocks.length; b++) {
-              allData.push(bodyData.blocks[b]);
-             }
-             const data = JSON.stringify(allData);
-            $.ajax({
-              type: 'POST',
-              data: data,
-              contentType: 'application/json',
-              url: '/bio',
-              success: (res) => {
-                window.location = '/bio';
-              }
-          }).catch((error) => {
-            console.log('Saving failed: ', error)
-          });
-        })
-      })
-    });
-
-    function hsPanel() {
-        if($('#hsPanel').hasClass('hidden')) {
-        } else {
-            $('#hsPanel, #transparentScreen4').addClass('hidden');
-        }
-    }
-
-    /// Enable Cover Panel Btn
-    $('#headshot').on('change', () => {
-        $('#coverUpld').removeClass('disabled');
-        $('#coverUpld').removeAttr('disabled');
+      },
+      data: {blocks: body}
     })
 
+    //// Save the change
     $(document).ready(()=> {
-        /// Cover Panel Rendering
-         $('#headshotBtn').on('click', (e)=> {
-            $target = $(e.target);
-            $('#hsPanel, #transparentScreen4').removeClass('hidden');
+      $('#saveBtn').on('click', async (e) => {
+        $target = $(e.target);
+        bodyED.save().then((bodyData) => {
+            let allData = [];
+            for( let b = 0; b < bodyData.blocks.length; b++) {
+            allData.push(bodyData.blocks[b]);
+            }
+            const data = JSON.stringify(allData);
+          $.ajax({
+            type: 'POST',
+            data: data,
+            contentType: 'application/json',
+            url: '/bio',
+            success: (res) => {
+              window.location = '/bio';
+            }
+        }).catch((error) => {
+          console.log('Saving failed: ', error)
         });
-    });
+      })
+    })
+  });
+
+  //// Headshot Panel Control
+  function hsPanel() {
+      if($('#hsPanel').hasClass('hidden')) {
+      } else {
+          $('#hsPanel, #transparentScreen4').addClass('hidden');
+      }
+  }
+
+  //// Enable Headshot Save Btn
+  $('#headshot').on('change', () => {
+      $('#coverUpld').removeClass('disabled');
+      $('#coverUpld').removeAttr('disabled');
+  })
+
+  //// Show Headshot Panel
+  $(document).ready(()=> {
+        $('#headshotBtn').on('click', (e)=> {
+          $target = $(e.target);
+          $('#hsPanel, #transparentScreen4').removeClass('hidden');
+      });
+  });
     </script>
 </body>
 </html>

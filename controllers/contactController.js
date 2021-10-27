@@ -25,6 +25,7 @@ const contact_post = (req, res) => {
     const GMAIL_PASS = process.env.GMAIL_PASS;
     const GMAIL_PORT = process.env.GMAIL_PORT;
     const GMAIL_HOST = process.env.GMAIL_HOST;
+    const EMAIL_RECEIVER = process.env.EMAIL_RECEIVER;
 
     const smtpTrans = nodemailer.createTransport({
       host: GMAIL_HOST,
@@ -38,9 +39,9 @@ const contact_post = (req, res) => {
   
     const mailOpts = {
       from: `${req.body.email}`,
-      to: GMAIL_USER,
+      to: EMAIL_RECEIVER,
       subject: `[MS.com] Message from ${req.body.name}`,
-      text: `You received new passage via MikeSager.com. \n\nName: ${req.body.name}\n\nEmail: ${req.body.email}\n\nMessage: ${req.body.message}\n\n`
+      text: `You received new massage via MikeSager.com. \n\nName: ${req.body.name}\n\nEmail: ${req.body.email}\n\nMessage: ${req.body.message}\n\n`
     }
 
     smtpTrans.sendMail(mailOpts, (error, response) => {

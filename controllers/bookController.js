@@ -3,25 +3,13 @@ const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
 const Book = require('../models/book');
 const Bio = require('../models/bio');
-const fs = require('fs');
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.ACCESS_KEY_ID_S3,
     secretAccessKey: process.env.SECRET_ACCESS_KEY_S3
 });
 
-// const bookdropdown = () => {
-//     let allBooks = [];
-//     Book.find({}, (err, books) => {
-//         for(let b = 0; b < books.length; b++) {
-//             let abook = new Object({ slug: books[b].slug, title: books[b].title });
-//             allBooks.push(abook);
-//         }
-//     });
-//     console.log(allBooks);
-//     return allBooks
-// }
-
+//// Book editor
 const editor_get = (req, res) => {
     let bookslug = req.params.slug;
     Book.findOne({slug: bookslug}, (err, bookData) => {
@@ -41,7 +29,6 @@ const editor_get = (req, res) => {
 const editor_post = (req, res) => {
     var bookslug = req.params.slug;
     const data = req.body;
-
     Book.findOne({slug: bookslug}, (err, bookData) => {
         bookData.body = data;
         bookData.save((err) => {
@@ -56,7 +43,6 @@ const editor_post = (req, res) => {
 const snippet_post = (req, res) => {
     var bookslug = req.params.slug;
     const data = req.body;
-
     Book.findOne({slug: bookslug}, (err, bookData) => {
         bookData.snippet = data;
         bookData.save((err) => {
@@ -68,6 +54,7 @@ const snippet_post = (req, res) => {
     })
 };
 
+//// Inline images for Book page
 const bookimg_post = (req, res) => {
     let filename;
     let upload = multer({
@@ -108,6 +95,7 @@ const bookimg_post = (req, res) => {
       });
 }
 
+//// Home/Books page (Client)
 const books_get = (req, res) => {
     Book.find({}, (err, booksData) => {
         booksData.sort(function(a, b) {

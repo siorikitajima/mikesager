@@ -20,8 +20,6 @@
                 <% } else if (theblock.type == "image") { %>
                     <img class="bookInline" src="<%= theblock.data.file.url %>" alt="image">
                     <p class="caption"><%- theblock.data.caption %></p>
-                <% } else if (theblock.type == "header" && theblock.data.level == 3 ) { %>
-                    <h3 class="book_heading"><%= theblock.data.text %></h3>
                 <% } else if (theblock.type == "list" && theblock.data.style == 'unordered' ) { %>
                     <ul class="book-list">
                         <% theblock.data.items.forEach((item, index) => { %>
@@ -34,8 +32,18 @@
                         <li><%- item %></li>
                         <% }) %>
                     </ol>
+                <% } else if (theblock.type == "header" && theblock.data.level == 1 ) { %>
+                    <h1 class="book_heading"><%= theblock.data.text %></h1>
+                <% } else if (theblock.type == "header" && theblock.data.level == 2 ) { %>
+                    <h2 class="book_heading"><%= theblock.data.text %></h2>
                 <% } else if (theblock.type == "header" && theblock.data.level == 3 ) { %>
-                    <h3><%= theblock.data.text %></h3>
+                    <h3 class="book_heading"><%= theblock.data.text %></h3>
+                <% } else if (theblock.type == "header" && theblock.data.level == 4 ) { %>
+                    <h4 class="book_heading"><%= theblock.data.text %></h4>
+                <% } else if (theblock.type == "header" && theblock.data.level == 5 ) { %>
+                    <h5 class="book_heading"><%= theblock.data.text %></h5>
+                <% } else if (theblock.type == "header" && theblock.data.level == 6 ) { %>
+                    <h6 class="book_heading"><%= theblock.data.text %></h6>
                 <% }}); %>
                 <div class="spaceM"></div>
             <%- include('./partials/bioBanner.ejs')  %> 

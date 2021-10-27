@@ -9,16 +9,16 @@
         <div class="fullWBanner">
             <h1>Writing Tips</h1>
         </div>
-    
-        <div class="content noTopMargin">
-            <div class="tips">
-                <% tips.forEach((thetip, index) => { %>
-                    <% if (thetip.published == true) { %>
+
+        <% tips.forEach((thetip, index) => { %>
+            <% if (thetip.published == true) { %>
+                <div class="content noTopMargin tipList">
+                    <div class="tips">
                         <a href="/tip/<%= thetip.slug %>">
                         <div class="tip">
                             <div class="tip-thumb">
                                 <% if (thetip.featimg !== '') {%>
-                                    <img src="https://mikesager.s3.amazonaws.com/tip/<%= thetip.featimg %>" alt="<%= thetip.title %>">
+                                    <img src="<%= thetip.featimg %>" alt="<%= thetip.title %>">
                                 <% } else { %>
                                     <img src="../images/global/TheSagerGroup_Logo_white.svg" alt="TSG">
                                 <% } %>
@@ -31,12 +31,13 @@
                             </div>
                         </div>
                     </a>
-                    <% } %>
-                <% }) %>
+                </div>
             </div>
-        </div>
+            <% } %>
+        <% }) %>
 
     </div>
+    
     <%- include('./partials/footer.ejs')  %> 
 
 </body>

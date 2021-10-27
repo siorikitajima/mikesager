@@ -26,6 +26,7 @@ const tipEditor_get = (req, res) => {
     })
 }
 
+//// Create New Tip
 const tipEditor_post = (req, res) => {
     var tipslug = req.params.slug;
     const data = req.body;
@@ -77,6 +78,7 @@ const tipEditor_post = (req, res) => {
     })
 };
 
+//// Inline image for Tip
 const tipimg_post = (req, res) => {
     let filename;
     let upload = multer({
@@ -116,6 +118,7 @@ const tipimg_post = (req, res) => {
       });
 }
 
+//// Tips listing page (Client)
 const tips_get = (req, res) => {
     Book.find({}, (err, booksData) => {
         booksData.sort(function(a, b) {

@@ -14,14 +14,7 @@
             <img src="../images/back.svg" alt="back">
             </div>
         </a>
-        <% if(tip.published == true) { %>
-          <button id="pubBtn" data-id="<%= name %>" data-pub=<%= tip.published %>>
-          UNPUBLISH
-        <% } else { %>
-          <button id="pubBtn2" data-id="<%= name %>" data-pub=<%= tip.published %>>
-          PUBLISH
-        <% } %>
-      </button>
+        
       <button id="saveBtn" class="disabled" data-id="<%= name %>" disabled>SAVE</button>
     </div>
 
@@ -36,25 +29,25 @@
 var thetip = <%- JSON.stringify(tip) %> ;
 const ImageTool = window.ImageTool;
 const headerED = new EditorJS({ 
-        holder: 'headerED', 
-        onChange: () => {
-          $('#saveBtn').removeClass('disabled');
-          $('#saveBtn').removeAttr('disabled');
-        },
-        inlineToolbar: true,
-        tools: { 
-          header: {
-            class: Header, 
-            inlineToolbar: true,
-            config: {
-              defaultLevel: 1
-            }
+      holder: 'headerED', 
+      onChange: () => {
+        $('#saveBtn').removeClass('disabled');
+        $('#saveBtn').removeAttr('disabled');
+      },
+      inlineToolbar: true,
+      tools: { 
+        header: {
+          class: Header, 
+          inlineToolbar: true,
+          config: {
+            defaultLevel: 1
           }
-        },
-        data: {blocks: thetip.header},
-        minHeight: 0,
-        hideToolbar: true
-      });
+        }
+      },
+      data: {blocks: thetip.header},
+      minHeight: 0,
+      hideToolbar: true
+    });
 const bodyED = new EditorJS({ 
         holder: 'bodyED', 
         onChange: () => {
@@ -87,8 +80,9 @@ const bodyED = new EditorJS({
         data: {blocks: thetip.body}
       })
 
-      $(document).ready(()=> {
-        $('#saveBtn').on('click', async (e) => {
+    //// Saving both Heading and Body
+    $(document).ready(()=> {
+      $('#saveBtn').on('click', async (e) => {
           $target = $(e.target);
           const id = $target.attr('data-id');
           bodyED.save().then((bodyData) => {
@@ -120,28 +114,6 @@ const bodyED = new EditorJS({
         })
       })
     });
-
-    $(document).ready(()=> {
-        $('#pubBtn').on('click', async (e) => {
-          if(!$('#saveBtn').hasClass('disabled')) {
-            alert('Save the change first!');
-          } else {
-          $target = $(e.target);
-          const id = $target.attr('data-id');
-          const pub = $target.attr('data-pub');
-          const data = JSON.stringify({'published': pub});
-          $.ajax({
-              type: 'POST',
-              data: data,
-              contentType: 'application/json',
-              url: '/publish/' + id,
-              success: (res) => {
-                window.location = '/edit/' + id;
-              }
-            })
-          }
-        });
-      });
     </script>
 </body>
 </html>

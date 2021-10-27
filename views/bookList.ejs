@@ -169,6 +169,7 @@
             }) 
         });
 
+        //// Move the book position up
         $('.upBtn').on('click', async(e) => {
             $target = $(e.target);
             const id = $target.attr('data-name');
@@ -182,6 +183,7 @@
               }
             }) 
         });
+        //// Move the book position down
         $('.downBtn').on('click', async(e) => {
             $target = $(e.target);
             const id = $target.attr('data-name');
