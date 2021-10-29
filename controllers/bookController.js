@@ -3,6 +3,7 @@ const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
 const Book = require('../models/book');
 const Bio = require('../models/bio');
+const metaFetcher = require('meta-fetcher');
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.ACCESS_KEY_ID_S3,
@@ -95,6 +96,46 @@ const bookimg_post = (req, res) => {
       });
 }
 
+//// Inline Link tool fetch
+// const link_fetch = async (req, res) => {
+//     let params = req.query.url;
+//     const result = await metaFetcher(params);
+//         return res.send({
+//             success: 1,
+//             meta: {
+//                 title: result.metadata.title,
+//                 description: result.metadata.description,
+//                 image: {
+//                     url: result.metadata.banner
+//                 }
+//             } 
+//         })
+//     }
+
+const link_fetch = async (req, res) => {
+    let params = req.query.url;
+    await metaFetcher(params)
+    .then(result => {
+            return res.send({
+                success: 1,
+                meta: {
+                    title: result.metadata.title,
+                    description: result.metadata.description,
+                    image: {
+                        url: result.metadata.banner
+                    }
+                } 
+            })
+    })
+    .catch(error => {
+            console.log('ERROR while fetching: ' + error);
+            return res.send({
+                success: 0,
+                data: 'ERROR while fetching: ' + error
+            })
+        });
+    }
+
 //// Home/Books page (Client)
 const books_get = (req, res) => {
     Book.find({}, (err, booksData) => {
@@ -157,6 +198,7 @@ module.exports = {
     editor_get,
     editor_post,
     bookimg_post,
+    link_fetch,
     books_get,
     book_single_get,
     snippet_post

@@ -67,7 +67,7 @@
         width: 100px;
         height: 100px;
     } */
-    .midBanner .text {
+    .midBanner .text, .linkBanner .text {
         width: 100%;
         padding: 0;
     }
@@ -122,9 +122,13 @@
     .about .bioimg {
         float: none;
         margin: 10px auto 30px auto;
-        width: fit-content;
-        height: fit-content;
-        max-width: 80vw;
+        /* width: fit-content;
+        height: fit-content; */
+        max-width: 70vw;
+        max-height: 70vw;
+    }
+    .about .bioimg img {
+        width: 100%;
     }
     .content.center .SocialMedia {
         margin: 0;
@@ -159,11 +163,14 @@
     .book .book-text p.snippet {
         display: none;
     }
-    .midBanner {
+    .midBanner, .linkBanner {
         display: block;
     }
-    .midBanner .bioimg {
+    .midBanner .bioimg, .linkBanner .linkimg {
         display: none;
+    }
+    .midBanner .readBtn {
+        text-align: right;
     }
     .tip-thumb {
         display: none;

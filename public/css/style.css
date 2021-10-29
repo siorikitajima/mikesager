@@ -399,12 +399,12 @@ footer {
 #screenBioContainer {
     margin-top: 100px;
 }
-.midBanner {
+.midBanner, .linkBanner {
     width: 900px;
     max-width: calc(100% - 60px);
     height: fit-content;
     background: #dddddd99;
-    text-align: center;
+    /* text-align: center; */
     padding: 30px;
     margin: 20px auto;
     cursor: pointer;
@@ -416,6 +416,13 @@ footer {
 .content .midBanner {
     background: #ddd;
     mix-blend-mode: multiply;
+}
+.content .linkBanner {
+    background: #fff;
+    box-shadow: 0 1px 3px #00000033 ;
+}
+.cdx-notifies {
+    z-index: 5000 !important;
 }
 
 .midBanner.admin {
@@ -431,11 +438,17 @@ footer {
     opacity: 1;
 }
 
-.midBanner h3, .midBanner .text p {
+.midBanner h3, .midBanner .text p, .book-single .linkBanner p {
     margin: 0;
 }
 
-.midBanner .bioimg {
+.book-single .linkBanner p.linkURL {
+    height: fit-content;
+    font-size: 0.8em;
+    color: #999;
+}
+
+.midBanner .bioimg, .linkBanner .linkimg {
     width: 130px;
     height: 130px;
     margin: auto 0 auto 10px;
@@ -443,6 +456,24 @@ footer {
     flex-shrink: 0;
     overflow: hidden;
 }
+.linkBanner .linkimg {
+    width: 100px;
+    height: 100px;
+}
+.linkBanner .linkimg img {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    max-width: 200%;
+    max-height: 200%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+}
+
 .about .bioimg {
     width: 360px;
     height: 360px;

@@ -75,6 +75,23 @@
                     <h5 class="book_heading"><%- theblock.data.text %></h5>
                 <% } else if (theblock.type == "header" && theblock.data.level == 6 ) { %>
                     <h6 class="book_heading"><%- theblock.data.text %></h6>
+                <% } else if (theblock.type == "linkTool") { %>
+                    <a href="<%- theblock.data.link %>" target="_blank">
+                        <div class="linkBanner">
+                            <div class="text">
+                                <h5><%- theblock.data.meta.title %></h5>
+                                <p><%- theblock.data.meta.description %></p>
+                                <% const thedomain = theblock.data.meta.image.url.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img)
+                                %>
+                                <p class="linkURL"><%= thedomain %></p>                            
+                            </div>
+                            <div>
+                                <div class="linkimg">
+                                    <img src="<%- theblock.data.meta.image.url %>" alt="<%- theblock.data.meta.title %>">
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                 <% } else if (theblock.type == "list" && theblock.data.style == 'unordered' ) { %>
                     <ul class="book-list">
                         <% theblock.data.items.forEach((item, index) => { %>

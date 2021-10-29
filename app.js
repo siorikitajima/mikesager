@@ -14,16 +14,12 @@ const authController = require('./controllers/authController');
 const passport = require('passport');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-const initializePassport = require('./controllers/passport-config');
-const User = require('./models/user');
-const bcrypt = require('bcrypt');
+const Username = require('./models/user');
 const flash = require('express-flash');
 const methodOverride = require('method-override');
 
 const app = express();
 const port = process.env.PORT || 3100;
-let salt = process.env.HASH_NUMBER;
-let salfInt = parseInt(salt);
 
 var store = new MongoDBStore({
     uri: process.env.DB_URL,
@@ -48,16 +44,6 @@ mongoose.connect(process.env.DB_URL)
     .catch((err) => console.log(err));
 const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', () => {
-        User.find()
-        .then((result) => { 
-            initializePassport(
-                passport, 
-                name => result.find(user => user.name === name),
-                id => result.find(user => user.id === id)
-            );
-        }).catch((err) => console.log(err));
-    });
 
 app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
@@ -69,6 +55,10 @@ app.use(bodyParser);
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.use(Username.createStrategy());
+passport.serializeUser(Username.serializeUser());
+passport.deserializeUser(Username.deserializeUser());
 
 // Front Routes
 app.get('/', bookController.books_get);
@@ -95,6 +85,7 @@ app.post('/snippet/:slug', authController.checkAuthenticated, bookController.sni
 app.post('/bookRename', authController.checkAuthenticated, bookListController.bookList_rename);
 app.post('/bookLinks', authController.checkAuthenticated, bookListController.bookList_links);
 app.post('/bookCover/:slug', authController.checkAuthenticated, bookListController.coverimg_post);
+app.get('/fetchUrl', authController.checkAuthenticated, bookController.link_fetch);
 
 // Admin Book List
 app.post('/publish/:slug', authController.checkAuthenticated, bookListController.publish_book);
@@ -124,18 +115,16 @@ app.post('/headshot', authController.checkAuthenticated, bioController.headshot_
 app.get('/register', authController.checkAuthenticated, (req, res) => {
     res.render('register', { title: 'register', nav: 'register' });
 });
-app.post('/register', authController.checkAuthenticated, async (req, res) => {
-    await bcrypt.hash(req.body.pass, salfInt, (err, hash) => {
-    if(err) console.log(err);
-        const user = new User({
-            name: req.body.name,
-            password: hash
-        });
-        user.save((err) => {
-            if(err) {console.log(err)}
-            else { res.redirect('/login');}
+app.post('/register', authController.checkAuthenticated, (req, res) => {
+    Username.register(({ username : req.body.username }), req.body.password, (err) => {
+        if (err) {
+            console.log('error while user register!', err);
+            res.redirect('/register');
+        } else {
+            console.log(req.body.username + ' is registered');
+            res.redirect('/login');
+        }
     });
-})
 });
 app.get('/login', authController.checkNotAuthenticated, (req, res) => {
     res.render('login', { title: 'login', nav: 'login' });

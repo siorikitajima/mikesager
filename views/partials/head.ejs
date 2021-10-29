@@ -23,8 +23,13 @@
             <meta property="og:image" content="https://msdev.siorikitajima.com/images/global/TheSagerGroup_Logo_white.jpg" />
         <% } %>
         <title><%= book.title %> | Mike Sager</title>
-        <meta property="og:description" name="og:description" content="<%= book.snippet[0].data.text %>">
-        <meta property="description" name="description" content="<%= book.snippet[0].data.text %>">
+        <% if(book.snippet[0]) { %>
+            <meta property="og:description" name="og:description" content="<%= book.snippet[0].data.text%>">
+            <meta property="description" name="description" content="<%= book.snippet[0].data.text%>">
+        <% } else { %>
+            <meta property="og:description" name="og:description" content="Mike Sager is a bestselling author and award-winning reporter. He’s been called “the Beat poet of American journalism.” For more than forty years he has worked as a writer for the Washington Post, Rolling Stone, GQ and Esquire.">
+            <meta property="description" name="description" content="Mike Sager is a bestselling author and award-winning reporter. He’s been called “the Beat poet of American journalism.” For more than forty years he has worked as a writer for the Washington Post, Rolling Stone, GQ and Esquire.">
+        <% } %>
     <%  } else if (nav === 'tip-single') { %>
         <meta property="og:title" content="<%= tip.title %> | Mike Sager" />
         <meta property="og:url" content="https://mikesager.com/tip/<%= tip.slug %>/" /> 
