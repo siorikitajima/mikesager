@@ -9,6 +9,9 @@
         <div id="screenBioContainer">
             <%- include('./partials/bioBanner.ejs')  %> 
         </div>
+        <div id="mobileBioContainer">
+            <%- include('./partials/bioBanner.ejs')  %> 
+        </div>
 
             <% books.forEach((thebook, index) => { %>
                 <% if (thebook.published == true) { %>
@@ -40,9 +43,6 @@
                     </div>
                 <% } %>
             <% }) %>
-        <div id="mobileBioContainer">
-            <%- include('./partials/bioBanner.ejs')  %> 
-        </div>
 
         <%- include('./partials/footer.ejs')  %> 
     </div>

@@ -1,0 +1,22 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+    <%- include('./partials/nav.ejs')  %> 
+
+    <div class="wrapper">
+    
+        <div class="content center">
+            <img src="images/global/404.svg" alt="message sent">
+            <h2>404 Page Not Found</h2>
+            <p>The page you were looking for does not exist.<br/>
+            Redirecting to the Home page in 3 sec...</p>
+        </div>
+
+    </div>
+    <%- include('./partials/footer.ejs')  %> 
+
+    <script>
+        setTimeout(() => {location.href="/"} , 3000);
+    </script>
+</body>

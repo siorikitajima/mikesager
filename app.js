@@ -17,9 +17,11 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const Username = require('./models/user');
 const flash = require('express-flash');
 const methodOverride = require('method-override');
+const Book = require('./models/book');
 
 const app = express();
 const port = process.env.PORT || 3100;
+// const port = process.env.PORT || 8080; //// for Dev
 
 var store = new MongoDBStore({
     uri: process.env.DB_URL,
@@ -135,3 +137,24 @@ app.post('/login', authController.checkNotAuthenticated, passport.authenticate('
     failureFlash: true
 }));
 app.delete('/logout', authController.log_out);
+app.get('/books', (req, res) => {
+    res.redirect('/');
+})
+app.use((req, res) => {
+    Book.find({}, (err, booksData) => {
+        booksData.sort(function(a, b) {
+          var keyA = a.index,
+              keyB = b.index;
+          if (keyA < keyB) return 1;
+          if (keyA > keyB) return -1;
+          return 0;
+        });
+          if(err) {console.log(err);}
+          else {
+            res.status(404).render('404', {
+              title: '404',
+              nav: '404',
+              books: booksData
+          })
+      }})
+})
